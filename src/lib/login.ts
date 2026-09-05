@@ -1,12 +1,9 @@
 import { createServerFn } from '@tanstack/react-start'
 
-export const registerFn = createServerFn({ method: "POST" })
+export const loginFn = createServerFn({ method: "POST" })
     .validator((data: { 
         login: string, 
         password: string,
-        email: string,
-        phone: string,
-        fullname: string,
     }) => data)
     .handler(({ data }) => {
         console.log(data)

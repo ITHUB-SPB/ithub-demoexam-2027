@@ -14,10 +14,14 @@ function RegisterPage() {
     event.stopPropagation()
   
     const form = new FormData(event.target)
+    
     const login = form.get('login')!.toString()
     const password = form.get('password')!.toString()
+    const email = form.get('email')!.toString()
+    const phone = form.get('phone')!.toString()
+    const fullname = form.get('fullname')!.toString()
 
-    await registerFn({ data: { login, password }})
+    await registerFn({ data: { login, password, email, phone, fullname }})
   }
 
   return (
@@ -36,6 +40,7 @@ function RegisterPage() {
                 placeholder='testuser1'
                 required
                 pattern='[a-zA-Z0-9]{6,}'
+                name="login"
               />
 
               <TextInput 
@@ -43,6 +48,9 @@ function RegisterPage() {
                 description="Минимум 8 символов" 
                 placeholder='********'
                 required
+                minLength={8}
+                name="password"
+                type='password'
               />
 
               <TextInput 
@@ -50,6 +58,8 @@ function RegisterPage() {
                 description="Символы кириллицы и пробелы" 
                 placeholder='Иванов Петр Ильич'
                 required
+                name="fullname"
+                pattern="[а-яА-Я]+ [а-яА-Я]+ [а-яА-Я]+"
               />
 
               <TextInput 
@@ -57,6 +67,8 @@ function RegisterPage() {
                 description="Формат 8(ХХХ)ХХХ-ХХ-ХХ" 
                 placeholder='8(999)000-22-11'
                 required
+                name="phone"
+                pattern="8\(\d{3}\)\d{3}-\d{2}-\d{2}"
               />
 
               <TextInput
@@ -64,6 +76,8 @@ function RegisterPage() {
                 description="Действительная почта" 
                 placeholder='testuser1@example.com'
                 required
+                name="email"
+                type="email"
               />
 
               <Button type="submit" fullWidth>Отправить</Button>
