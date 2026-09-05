@@ -1,8 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { ArrowRight, Users } from 'lucide-react'
 
-import { allSpeakers, allTalks } from 'content-collections'
-
 import HeroCarousel from '#/components/HeroCarousel'
 
 export const Route = createFileRoute('/')({
@@ -10,14 +8,10 @@ export const Route = createFileRoute('/')({
 })
 
 function HomePage() {
-  const featuredSpeakers = allSpeakers.slice(0, 3)
-  const featuredTalks = allTalks.slice(0, 4)
 
   return (
     <>
-      {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center justify-center px-6 overflow-hidden">
-        {/* Background carousel */}
         <HeroCarousel />
 
         <div className="relative max-w-5xl mx-auto text-center z-10">
@@ -30,11 +24,10 @@ function HomePage() {
             Зарегистрируйтесь на один из курсов 
           </p>
 
-          {/* Stats */}
           <div className="flex flex-wrap justify-center gap-8 mb-12">
             <div className="text-center">
               <div className="text-4xl font-display font-bold text-gold">
-                {allSpeakers.length}
+                3
               </div>
               <div className="text-cream/50 text-sm uppercase tracking-wider">
                 курса
@@ -50,7 +43,6 @@ function HomePage() {
             </div>
           </div>
 
-          {/* CTA buttons */}
           <div className="flex flex-wrap justify-center gap-4">
             <Link
               to="/register"
