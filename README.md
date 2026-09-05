@@ -82,7 +82,6 @@ A beautiful pastry conference website built with TanStack Start and Netlify, fea
 
 - **Speakers & Sessions**: Managed with content-collections for easy markdown-based content
 - **Conference Schedule**: Day-by-day timeline of all sessions
-- **AI Assistant (Remy)**: An AI-powered chat assistant to help attendees navigate the conference
 - **Elegant Dark Theme**: Custom typography with Playfair Display and copper/gold accents
 
 ## Features
@@ -93,7 +92,6 @@ A beautiful pastry conference website built with TanStack Start and Netlify, fea
 - All content in markdown files using content-collections
 
 ### AI-Powered Assistance
-- Chat with "Remy" the culinary assistant
 - Search for speakers and sessions by topic
 - Get recommendations based on interests
 - Supports multiple AI providers (Anthropic, OpenAI, Gemini, Ollama)

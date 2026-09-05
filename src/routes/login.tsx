@@ -3,16 +3,14 @@ import { createFileRoute } from '@tanstack/react-router'
 import { allTalks } from 'content-collections'
 
 import TalkCard from '#/components/TalkCard'
-import RemyAssistant from '#/components/RemyAssistant'
 
-export const Route = createFileRoute('/talks/')({
-  component: TalksPage,
+export const Route = createFileRoute('/login')({
+  component: LoginPage,
 })
 
-function TalksPage() {
+function LoginPage() {
   return (
     <>
-      <RemyAssistant />
       <div className="min-h-screen">
         {/* Hero section */}
         <div className="relative py-16 px-6">

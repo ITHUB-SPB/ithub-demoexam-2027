@@ -53,7 +53,7 @@ function HomePage() {
           {/* CTA buttons */}
           <div className="flex flex-wrap justify-center gap-4">
             <Link
-              to="/speakers"
+              to="/register"
               className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-copper to-copper-dark text-charcoal font-semibold text-lg transition-all hover:shadow-lg hover:shadow-copper/30 hover:scale-[1.02]"
             >
               <Users className="w-5 h-5" />
