@@ -52,7 +52,7 @@ function HomePage() {
               Зарегистрироваться
             </Link>
             <Link
-              to="/talks"
+              to="/login"
               className="inline-flex items-center gap-2 px-8 py-4 rounded-full border-2 border-gold/50 text-gold font-semibold text-lg transition-all hover:bg-gold/10 hover:border-gold"
             >
               Войти
