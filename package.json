@@ -23,7 +23,6 @@
     "@tanstack/react-router-devtools": "latest",
     "@tanstack/react-start": "latest",
     "@tanstack/store": "latest",
-    "better-auth": "^1.5.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.577.0",

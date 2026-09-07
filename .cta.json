@@ -15,7 +15,6 @@
   "framework": "react",
   "chosenAddOns": [
     "biome",
-    "better-auth",
     "events"
   ]
 }

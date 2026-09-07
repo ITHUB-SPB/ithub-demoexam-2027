@@ -1,5 +1,4 @@
 import { Link } from '@tanstack/react-router'
-import BetterAuthHeader from '../integrations/better-auth/header-user.tsx'
 
 export default function Header() {
   return (
@@ -61,7 +60,6 @@ export default function Header() {
               />
             </svg>
           </a>
-          <BetterAuthHeader />
         </div>
       </nav>
     </header>
