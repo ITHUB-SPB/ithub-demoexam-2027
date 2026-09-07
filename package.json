@@ -12,11 +12,13 @@
     "preview": "vite preview",
     "format": "biome format",
     "lint": "biome lint",
-    "check": "biome check"
+    "check": "biome check",
+    "contract:emit": "prisma contract emit"
   },
   "dependencies": {
     "@mantine/core": "^9.6.0",
     "@mantine/hooks": "^9.6.0",
+    "@prisma/orm-postgres": "^8.0.0-rc.8",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-devtools": "latest",
     "@tanstack/react-router": "latest",
@@ -25,6 +27,7 @@
     "@tanstack/store": "latest",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dotenv": "^17.4.2",
     "lucide-react": "^0.577.0",
     "marked": "^15.0.8",
     "react": "^19.2.0",
@@ -37,6 +40,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.5",
+    "@prisma/cli-engine": "^0.2.3",
     "@tailwindcss/typography": "^0.5.16",
     "@tanstack/devtools-vite": "latest",
     "@tanstack/router-cli": "^1.132.0",
@@ -44,6 +48,7 @@
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^6.0.1",
+    "prisma": "^8.0.0-rc.10",
     "typescript": "^6.0.2",
     "vite": "^8.0.0"
   },
