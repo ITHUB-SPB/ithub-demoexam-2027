@@ -2,6 +2,16 @@
 
 `docker run --name postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=demo -d -p=5431:5432 postgres:18`
 
+Настройте .env в соответствии с окружением
+
+DATABASE_URL="postgresql://postgres:postgres@localhost:5431/demo"
+
+`npx prisma@latest contract emit`
+
+`npx prisma@latest db sign`
+
+`npx prisma@latest update`
+
 # Getting Started
 
 To run this application:
