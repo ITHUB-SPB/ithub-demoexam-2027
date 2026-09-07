@@ -1,4 +1,6 @@
-Welcome to your new TanStack Start app!
+## PostgreSQL
+
+`docker run --name postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=demo -d -p=5431:5432 postgres:18`
 
 # Getting Started
 

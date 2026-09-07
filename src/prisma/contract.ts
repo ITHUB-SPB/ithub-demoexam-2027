@@ -46,9 +46,12 @@ export const contract = defineContract({}, ({ field, model, rel }) => {
         course: rel.belongsTo(Course, { from: 'courseId', to: 'id' }),
         paymentType: rel.belongsTo(PaymentType, { from: 'paymentTypeId', to: 'id' }),
       }),
-      // Course: Course.relations({
-      //   entries: rel.hasMany(Entry, { by: 'courseId' }),
-      // }),
+      Course: Course.relations({
+        entries: rel.hasMany(Entry, { by: 'courseId' }),
+      }),
+      PaymentType: PaymentType.relations({
+        entries: rel.hasMany(Entry, { by: 'courseId' }),
+      }),
     },
   };
 });
