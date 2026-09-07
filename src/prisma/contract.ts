@@ -19,25 +19,36 @@ export const contract = defineContract({}, ({ field, model, rel }) => {
     }
   })
 
+  const PaymentType = model('PaymentType', {
+    fields: {
+      id: field.id.uuidv7String(),
+      title: field.text().unique()
+    }
+  })
+
   const Entry = model('Entry', {
     fields: {
       id: field.id.uuidv7String(),
       authorId: field.uuidString(),
       courseId: field.uuidString(),
+      paymentTypeId: field.uuidString(),
       startDate: field.dateTime(),
-      createdAt: field.temporal.createdAtString(),
-      updatedAt: field.temporal.updatedAtString(),
     },
   });
 
   return {
     models: {
       User: User.relations({
-        posts: rel.hasMany(Post, { by: 'authorId' }),
+        entries: rel.hasMany(Entry, { by: 'authorId' }),
       }),
-      Post: Post.relations({
+      Entry: Entry.relations({
         author: rel.belongsTo(User, { from: 'authorId', to: 'id' }),
+        course: rel.belongsTo(Course, { from: 'courseId', to: 'id' }),
+        paymentType: rel.belongsTo(PaymentType, { from: 'paymentTypeId', to: 'id' }),
       }),
+      // Course: Course.relations({
+      //   entries: rel.hasMany(Entry, { by: 'courseId' }),
+      // }),
     },
   };
 });
