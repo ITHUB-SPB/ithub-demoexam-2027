@@ -1,6 +1,6 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
 import { getUserFn } from '#/lib/getUser'
-
+import { logoutFn } from '#/lib/logout'
 
 export const Route = createFileRoute('/profile')({
   beforeLoad: async () => {
@@ -17,6 +17,17 @@ export const Route = createFileRoute('/profile')({
 
 function ProfilePage() {
   const { user } = Route.useRouteContext()
+  const navigate = Route.useNavigate()
 
-  return <div>Hello {user}</div>
+  async function handleClick() {
+    await logoutFn()
+    navigate({ to: '/login' })
+  }
+
+  return (
+    <div>
+      Hello {user}
+      <button onClick={handleClick}>Выйти</button>
+    </div>
+  )
 }
