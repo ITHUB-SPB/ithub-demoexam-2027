@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { TextInput, Button } from '@mantine/core'
 
 import { loginFn } from '../lib/login'
+import { useServerFn } from '@tanstack/react-start'
 
 
 export const Route = createFileRoute('/login')({
@@ -10,6 +11,8 @@ export const Route = createFileRoute('/login')({
 })
 
 function LoginPage() {
+  const useLoginFn = useServerFn(loginFn)
+
   const handleSubmit = async (event: SubmitEvent) => {
     event.preventDefault()
     event.stopPropagation()
@@ -19,7 +22,7 @@ function LoginPage() {
     const login = form.get('login')!.toString()
     const password = form.get('password')!.toString()
 
-    await loginFn({ data: { login, password }})
+    await useLoginFn({ data: { login, password }})
   }
 
   return (
