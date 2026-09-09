@@ -1,4 +1,4 @@
-import type { SubmitEvent } from 'react'
+import { type SubmitEvent, useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { TextInput, Button } from '@mantine/core'
 
@@ -9,6 +9,9 @@ export const Route = createFileRoute('/register')({
 })
 
 function RegisterPage() {
+  const navigate = Route.useNavigate()
+  const [error, setError] = useState<string | null>(null)
+
   const handleSubmit = async (event: SubmitEvent) => {
     event.preventDefault()
     event.stopPropagation()
@@ -21,7 +24,13 @@ function RegisterPage() {
     const phone = form.get('phone')!.toString()
     const fullname = form.get('fullname')!.toString()
 
-    await registerFn({ data: { login, password, email, phone, fullname }})
+    const result = await registerFn({ data: { login, password, email, phone, fullname }})
+
+    if (result.success) {
+      await navigate({ to: '/login' })
+    } else {
+      setError(result.error)
+    }
   }
 
   return (
@@ -32,6 +41,10 @@ function RegisterPage() {
             <h1 className="font-display text-center text-5xl md:text-6xl font-bold text-cream mb-4">
               Регистрация <span className="text-gold italic">аккаунта</span>{' '}
             </h1>
+
+            <p className='color-red-700 text-2xl'>
+                {error}
+            </p>
 
             <form className='max-w-xl mx-auto' action="" method="post" onSubmit={handleSubmit}>
               <TextInput 
