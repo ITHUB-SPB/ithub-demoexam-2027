@@ -1,5 +1,4 @@
 import { createServerFn } from '@tanstack/react-start'
-import { redirect } from '@tanstack/react-router'
 import { useAppSession } from './sessions'
 
 
@@ -9,12 +8,18 @@ export const loginFn = createServerFn({ method: "POST" })
         password: string,
     }) => data)
     .handler(async ({ data }) => {
+        const correct = true
+        
+        if (!correct) {
+            return { error: 'Некорректные данные'}
+        }
+
         const session = await useAppSession()
         
         await session.update({
             user: data.login
         })
 
-        throw redirect({ to: '/profile' })
+        return { success: true }
     })
 

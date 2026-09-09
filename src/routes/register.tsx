@@ -1,5 +1,5 @@
 import { type SubmitEvent, useState } from 'react'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { TextInput, Button } from '@mantine/core'
 
 import { registerFn } from '../lib/register'
@@ -42,7 +42,7 @@ function RegisterPage() {
               Регистрация <span className="text-gold italic">аккаунта</span>{' '}
             </h1>
 
-            <p className='color-red-700 text-2xl'>
+            <p className='text-red-700 text-md text-center'>
                 {error}
             </p>
 
@@ -95,6 +95,8 @@ function RegisterPage() {
 
               <Button type="submit" fullWidth>Отправить</Button>
             </form>
+
+            <Link to="/login">Уже зарегистрированы? Войдите в аккаунт!</Link>
           </div>
         </div>
       </div>
