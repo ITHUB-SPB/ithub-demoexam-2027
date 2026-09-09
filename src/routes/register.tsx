@@ -26,7 +26,7 @@ function RegisterPage() {
 
     const result = await registerFn({ data: { login, password, email, phone, fullname }})
 
-    if (result.success) {
+    if ('success' in result) {
       await navigate({ to: '/login' })
     } else {
       setError(result.error)
