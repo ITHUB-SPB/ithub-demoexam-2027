@@ -5,6 +5,8 @@ import { createServerFn } from '@tanstack/react-start'
 import { db } from "#/prisma/db"
 
 
+type Result = { error: string } | { success: true }
+
 export const registerFn = createServerFn({ method: "POST" })
     .validator((data: { 
         login: string, 
@@ -30,4 +32,5 @@ export const registerFn = createServerFn({ method: "POST" })
         })
         
         await runtime.close()
+        return { success: true }
     })
