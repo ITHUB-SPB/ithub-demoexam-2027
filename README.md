@@ -10,7 +10,7 @@ DATABASE_URL="postgresql://postgres:postgres@localhost:5431/demo"
 
 `npx prisma@latest db sign`
 
-`npx prisma@latest update`
+`npx prisma@latest db update`
 
 # Getting Started
 
