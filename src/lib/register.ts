@@ -1,6 +1,6 @@
 import { createServerFn } from '@tanstack/react-start'
 import { db } from "#/prisma/db"
-import { getPasswordHash } from './utils'
+import { getPasswordHash } from './hash'
 
 type Result = { error: string } | { success: true }
 

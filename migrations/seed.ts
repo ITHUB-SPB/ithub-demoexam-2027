@@ -1,5 +1,5 @@
 import { db } from "#/prisma/db.ts";
-import { getPasswordHash } from "#/lib/utils.ts";
+import { getPasswordHash } from "#/lib/hash";
 
 async function seed() {
     const connection = await db.connect()

@@ -1,8 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { ArrowRight, Users } from 'lucide-react'
 
-import HeroCarousel from '#/components/HeroCarousel'
-
 export const Route = createFileRoute('/')({
   component: HomePage,
 })
@@ -12,8 +10,6 @@ function HomePage() {
   return (
     <>
       <section className="relative min-h-[90vh] flex items-center justify-center px-6 overflow-hidden">
-        <HeroCarousel />
-
         <div className="relative max-w-5xl mx-auto text-center z-10">
           <h1 className="font-display text-6xl md:text-8xl font-bold text-cream mb-6 leading-tight">
             Учебный центр

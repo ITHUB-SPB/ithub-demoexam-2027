@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
-import { Table } from '@mantine/core'
+
 import { getUserFn } from '#/lib/getUser'
 import { logoutFn } from '#/lib/logout'
 import { getEntries } from '#/lib/entries'
@@ -43,7 +43,7 @@ function ProfilePage() {
         <button onClick={handleClick}>Выйти</button>
       </div>
 
-      <Table>
+      {/* <Table>
         <Table.Thead>
           <Table.Tr>
             <Table.Th>Название курса</Table.Th>
@@ -61,7 +61,7 @@ function ProfilePage() {
             </Table.Tr>
           ))}
         </Table.Tbody>
-      </Table>
+      </Table> */}
     </>
   )
 }

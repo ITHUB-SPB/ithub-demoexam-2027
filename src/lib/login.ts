@@ -1,6 +1,6 @@
 import { createServerFn } from '@tanstack/react-start'
 import { useAppSession } from './sessions'
-import { getPasswordHash } from './utils'
+import { getPasswordHash } from './hash'
 import { db } from '#/prisma/db'
 
 export const loginFn = createServerFn({ method: "POST" })
