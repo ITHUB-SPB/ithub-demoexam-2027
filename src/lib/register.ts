@@ -1,9 +1,6 @@
-// import "dotenv/config"
-
-import crypto from 'node:crypto'
 import { createServerFn } from '@tanstack/react-start'
 import { db } from "#/prisma/db"
-
+import { getPasswordHash } from './utils'
 
 type Result = { error: string } | { success: true }
 
@@ -15,22 +12,23 @@ export const registerFn = createServerFn({ method: "POST" })
         phone: string,
         fullname: string,
     }) => data)
-    .handler(async ({ data }) => {
-        const runtime = await db.connect({ url: process.env.DATABASE_URL! })
-
-        const hashedPassword = crypto
-            .createHash('sha256')
-            .update(data.password)
-            .digest('hex')
+    .handler(async ({ data }): Promise<Result> => {
+        const connection = await db.connect()
         
-        await db.orm.public.User.create({
-            username: data.login,
-            password: hashedPassword,
-            email: data.email,
-            phone: data.phone,
-            name: data.fullname
-        })
+        const hashedPassword = await getPasswordHash(data.password)
         
-        await runtime.close()
-        return { success: true }
+        try {
+            await db.orm.public.User.create({
+                username: data.login,
+                password: hashedPassword,
+                email: data.email,
+                phone: data.phone,
+                name: data.fullname
+            })
+            await connection.close()
+            return { success: true }
+        } catch (error) {
+            await connection.close()
+            return { error: 'Не удалось создать аккаунт' }
+        } 
     })

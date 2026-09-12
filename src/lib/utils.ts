@@ -1,7 +1,6 @@
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import { scrypt } from 'node:crypto'
-import 'dotenv/config'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
