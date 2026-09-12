@@ -8,22 +8,18 @@ export const loginFn = createServerFn({ method: "POST" })
         login: string, 
         password: string,
     }) => data)
-    .handler(async ({ data }) => {
-        const connection = await db.connect()
-        
+    .handler(async ({ data }) => {      
         const user = await db.orm.public.User.first({
             username: data.login
         })
 
         if (!user) {
-            await connection.close()
             return { error: 'Некорректные данные'}
         }
 
         const hashedPassword = await getPasswordHash(data.password)
         
         if (user.password !== hashedPassword) {
-            await connection.close()
             return { error: 'Некорректные данные'}
         }
 
@@ -33,6 +29,5 @@ export const loginFn = createServerFn({ method: "POST" })
             user: data.login
         })
 
-        await connection.close()
         return { success: true }
     })

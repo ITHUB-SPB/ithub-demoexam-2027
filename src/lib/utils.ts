@@ -12,7 +12,7 @@ export function getPasswordHash(password: string): Promise<string> {
       if (error) {
         reject(error)
       }
-      resolve(derived.toString())
+      resolve(derived.toString('hex'))
     })
   })
 }

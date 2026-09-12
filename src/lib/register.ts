@@ -12,9 +12,7 @@ export const registerFn = createServerFn({ method: "POST" })
         phone: string,
         fullname: string,
     }) => data)
-    .handler(async ({ data }): Promise<Result> => {
-        const connection = await db.connect()
-        
+    .handler(async ({ data }): Promise<Result> => {      
         const hashedPassword = await getPasswordHash(data.password)
         
         try {
@@ -25,10 +23,9 @@ export const registerFn = createServerFn({ method: "POST" })
                 phone: data.phone,
                 name: data.fullname
             })
-            await connection.close()
             return { success: true }
         } catch (error) {
-            await connection.close()
+            console.error(error)
             return { error: 'Не удалось создать аккаунт' }
         } 
     })
