@@ -13,7 +13,9 @@
     "format": "biome format",
     "lint": "biome lint",
     "check": "biome check",
-    "contract:emit": "prisma contract emit"
+    "contract:emit": "prisma contract emit",
+    "update": "prisma db update",
+    "seed": "node migrations/seed.ts"
   },
   "dependencies": {
     "@mantine/core": "^9.6.0",

@@ -6,11 +6,11 @@
 
 DATABASE_URL="postgresql://postgres:postgres@localhost:5431/demo"
 
-`npx prisma@latest contract emit`
+`npm run contract:emit`
 
 `npx prisma@latest db sign`
 
-`npx prisma@latest db update`
+`npm run update`
 
 # Getting Started
 

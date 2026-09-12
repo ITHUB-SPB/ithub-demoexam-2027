@@ -1,6 +1,9 @@
-import { db } from "#/prisma/db";
+import { db } from "#/prisma/db.ts";
+import { getPasswordHash } from "#/lib/utils.ts";
 
 async function seed() {
+    const connection = await db.connect()
+
     const courses = [
         'Основы алгоритмизации и программирования',
         'Основы веб-дизайна',
@@ -15,21 +18,30 @@ async function seed() {
     for (const title of courses) {
         await db.orm.public.Course.upsert({
             create: { title },
-            update: {}
+            update: { },
+            conflictOn: { title }
         })
     }
 
     for (const title of ['наличные', 'перевод по номеру']) {
         await db.orm.public.PaymentType.upsert({
             create: { title },
-            update: {}
+            update: {},
+            conflictOn: { title }
         })
     }
 
     for (const { email, name, phone, username, password } of users) {
+        const hashedPassword = await getPasswordHash(password)
+
         await db.orm.public.User.upsert({
-            create: { email, name, phone, username, password },
-            update: {}
+            create: { email, name, phone, username, password: hashedPassword },
+            update: {},
+            conflictOn: { email }
         })
     }
+
+    await connection.close()
 }
+
+seed().catch(error => { console.error(error) })
