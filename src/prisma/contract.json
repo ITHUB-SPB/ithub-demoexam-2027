@@ -16,6 +16,10 @@
       "model": "PaymentType",
       "namespace": "public"
     },
+    "Status": {
+      "model": "Status",
+      "namespace": "public"
+    },
     "User": {
       "model": "User",
       "namespace": "public"
@@ -123,6 +127,16 @@
                   "codecId": "pg/timestamptz-temporal@1",
                   "kind": "scalar"
                 }
+              },
+              "statusId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "sql/char@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 36
+                  }
+                }
               }
             },
             "relations": {
@@ -170,6 +184,21 @@
                   "model": "PaymentType",
                   "namespace": "public"
                 }
+              },
+              "status": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "statusId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Status",
+                  "namespace": "public"
+                }
               }
             },
             "storage": {
@@ -188,6 +217,9 @@
                 },
                 "startDate": {
                   "column": "startDate"
+                },
+                "statusId": {
+                  "column": "statusId"
                 }
               },
               "namespaceId": "public",
@@ -222,7 +254,7 @@
                     "id"
                   ],
                   "targetFields": [
-                    "courseId"
+                    "paymentTypeId"
                   ]
                 },
                 "to": {
@@ -242,6 +274,56 @@
               },
               "namespaceId": "public",
               "table": "PaymentType"
+            }
+          },
+          "Status": {
+            "fields": {
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "sql/char@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 36
+                  }
+                }
+              },
+              "title": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "entries": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "statusId"
+                  ]
+                },
+                "to": {
+                  "model": "Entry",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "id": {
+                  "column": "id"
+                },
+                "title": {
+                  "column": "title"
+                }
+              },
+              "namespaceId": "public",
+              "table": "Status"
             }
           },
           "User": {
@@ -412,6 +494,14 @@
                   "codecId": "pg/timestamptz-temporal@1",
                   "nativeType": "timestamptz",
                   "nullable": false
+                },
+                "statusId": {
+                  "codecId": "sql/char@1",
+                  "nativeType": "character",
+                  "nullable": false,
+                  "typeParams": {
+                    "length": 36
+                  }
                 }
               },
               "foreignKeys": [],
@@ -424,6 +514,37 @@
               "uniques": []
             },
             "PaymentType": {
+              "columns": {
+                "id": {
+                  "codecId": "sql/char@1",
+                  "nativeType": "character",
+                  "nullable": false,
+                  "typeParams": {
+                    "length": 36
+                  }
+                },
+                "title": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "title"
+                  ]
+                }
+              ]
+            },
+            "Status": {
               "columns": {
                 "id": {
                   "codecId": "sql/char@1",
@@ -511,10 +632,10 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "6f94cca3967d86efcd9b1f25e4a895cb2ef54b4746195f6691140f5bf918647b"
+    "storageHash": "15c4a90ba629abaf1d1b773507ebac113c1afe0a7b7902ef37fd2ef495a48458"
   },
   "execution": {
-    "executionHash": "701a2a7d6d29f09b9859934b3719926e47030bff804073e5666cdf76ee27f221",
+    "executionHash": "b49e774c4b130df64b75f29ca65641636342dd510155f70e55c00c67844ff761",
     "mutations": {
       "defaults": [
         {
@@ -548,6 +669,17 @@
             "column": "id",
             "namespace": "public",
             "table": "PaymentType"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "uuidv7",
+            "kind": "generator"
+          },
+          "ref": {
+            "column": "id",
+            "namespace": "public",
+            "table": "Status"
           }
         },
         {

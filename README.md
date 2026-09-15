@@ -12,6 +12,8 @@ DATABASE_URL="postgresql://postgres:postgres@localhost:5431/demo"
 
 `npm run update`
 
+`npm run seed`
+
 # Getting Started
 
 To run this application:

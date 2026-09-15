@@ -42,14 +42,25 @@ export const createEntry = createServerFn()
     .validator((data: {
         username: string,
         courseId: Char<36>,
-        statusId: string,
-        paymentTypeId: string,
+        statusId: Char<36>,
+        paymentTypeId: Char<36>,
         startDate: string
     }) => data)
     .handler(async ({ data }) => {
+        const author = await db.orm.public.User
+            .where(u => u.username.eq(data.username))
+            .first()
+        
+        if (!author) {
+            throw new Error('User not found')
+        }
+
         await db.orm.public.Entry.create({
             courseId: data.courseId,
-            sta
+            statusId: data.statusId,
+            paymentTypeId: data.paymentTypeId,
+            startDate: data.startDate,
+            authorId: author.id
         })
     })
 

@@ -29,10 +29,10 @@ export const contract = defineContract({}, ({ field, model, rel }) => {
   const Entry = model('Entry', {
     fields: {
       id: field.id.uuidv7String(),
-      authorId: field.uuidv7String(),
-      courseId: field.uuidv7String(),
-      statusId: field.uuidv7String(),
-      paymentTypeId: field.uuidv7String(),
+      authorId: field.uuidString(),
+      courseId: field.uuidString(),
+      statusId: field.uuidString(),
+      paymentTypeId: field.uuidString(),
       startDate: field.dateTime(),
     },
   });
