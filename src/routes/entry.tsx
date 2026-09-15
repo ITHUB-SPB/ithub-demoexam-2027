@@ -23,7 +23,7 @@ export const Route = createFileRoute('/entry')({
 })
 
 function EntryPage() {
-    const { courses, paymentTypes, user } = Route.useLoaderData()
+    const { courses, paymentTypes, user, statuses } = Route.useLoaderData()
     const navigate = Route.useNavigate()
     const [error, setError] = useState<string | null>(null)
 
@@ -36,11 +36,13 @@ function EntryPage() {
         const startDate = form.get('startDate')!.toString()
         const courseId = form.get('course')!.toString()
         const paymentTypeId = form.get('paymentType')!.toString()
+        const statusId = statuses.find(({ title }) => title === "Новая")!.id
 
         const result = await createEntry({
             data: {
                 username: user,
                 courseId,
+                statusId,
                 startDate,
                 paymentTypeId
             }

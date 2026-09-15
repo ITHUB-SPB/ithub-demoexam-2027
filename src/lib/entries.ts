@@ -1,6 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
-import { db } from "#/prisma/db";
+import { Temporal } from '@js-temporal/polyfill'
 import type { Char } from "@prisma/orm-postgres/target/codec-types";
+
+import { db } from "#/prisma/db";
 
 const fakeEntries = [
     { 
@@ -54,14 +56,20 @@ export const createEntry = createServerFn()
         if (!author) {
             throw new Error('User not found')
         }
-
-        await db.orm.public.Entry.create({
-            courseId: data.courseId,
-            statusId: data.statusId,
-            paymentTypeId: data.paymentTypeId,
-            startDate: data.startDate,
-            authorId: author.id
-        })
+        
+        try {
+            await db.orm.public.Entry.create({
+                courseId: data.courseId,
+                statusId: data.statusId,
+                paymentTypeId: data.paymentTypeId,
+                startDate: Temporal.Now.instant(), // TODO convert data.startDate
+                authorId: author.id
+            })
+            return { success: true }
+        } catch (error) {
+            console.error(error)
+            return { error : 'Не удалось создать заявку' }
+        }
     })
 
 export const getInitialData = createServerFn()
