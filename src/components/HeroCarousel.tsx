@@ -18,14 +18,13 @@ export default function HeroCarousel() {
   }, [])
 
   return (
-    <div className="absolute inset-0 overflow-hidden">
+    <div className="overflow-hidden relative grow-2">
       {/* Background images with crossfade */}
       {backgrounds.map((bg, index) => (
         <div
           key={bg}
-          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-            index === currentIndex ? 'opacity-100' : 'opacity-0'
-          }`}
+          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentIndex ? 'opacity-100' : 'opacity-0'
+            }`}
         >
           <img src={bg} alt="" className="w-full h-full object-cover" />
         </div>
@@ -43,11 +42,10 @@ export default function HeroCarousel() {
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              index === currentIndex
-                ? 'bg-gold w-6'
-                : 'bg-cream/30 hover:bg-cream/50'
-            }`}
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${index === currentIndex
+              ? 'bg-gold w-6'
+              : 'bg-cream/30 hover:bg-cream/50'
+              }`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}

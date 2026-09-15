@@ -1,66 +1,74 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { ArrowRight, Users } from 'lucide-react'
-
-import HeroCarousel from '#/components/HeroCarousel'
+import { createFileRoute, redirect, Link } from '@tanstack/react-router'
+import { Table } from '@mantine/core'
+import { getUserFn } from '#/lib/getUser'
+import { logoutFn } from '#/lib/logout'
+import { getEntries } from '#/lib/entries'
 
 export const Route = createFileRoute('/')({
-  component: HomePage,
+  beforeLoad: async () => {
+    const user = await getUserFn()
+
+    if (!user) {
+      throw redirect({ to: '/login' })
+    }
+
+    return { user }
+  },
+  loader: async ({ context }) => {
+    const username = context.user
+
+    if (username === "Admin") {
+      return await getEntries({ data: {} })
+    }
+
+    return await getEntries({ data: { username } })
+  },
+  component: ProfilePage,
 })
 
-function HomePage() {
+function ProfilePage() {
+  const { user } = Route.useRouteContext()
+  const entries = Route.useLoaderData()
+  const navigate = Route.useNavigate()
+
+  async function handleClick() {
+    await logoutFn()
+    navigate({ to: '/login' })
+  }
 
   return (
     <>
-      <section className="relative min-h-[90vh] flex items-center justify-center px-6 overflow-hidden">
-        <HeroCarousel />
+      <div>
+        Hello {user}
+        <button onClick={handleClick}>Выйти</button>
+      </div>
 
-        <div className="relative max-w-5xl mx-auto text-center z-10">
-          <h1 className="font-display text-6xl md:text-8xl font-bold text-cream mb-6 leading-tight">
-            Учебный центр
-            <span className="block text-gold italic">KOROCHEK.NET</span>
-          </h1>
+      {!("error" in entries) && entries.length && (
+        <Table>
+          <Table.Thead>
+            <Table.Tr>
+              {user === "Admin" && <Table.Th>ФИО</Table.Th>}
+              <Table.Th>Название курса</Table.Th>
+              <Table.Th>Способ оплаты</Table.Th>
+              <Table.Th>Дата начала</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
 
-          <p className="text-xl md:text-2xl text-cream/70 font-body max-w-3xl mx-auto mb-10 leading-relaxed">
-            Зарегистрируйтесь на один из курсов 
-          </p>
+          <Table.Tbody>
+            {entries.map((entry) => (
+              <Table.Tr key={entry.id}>
+                {entry.author && <Table.Td>{entry.author.name}</Table.Td>}
+                <Table.Td>{entry.course.title}</Table.Td>
+                <Table.Td>{entry.paymentType.title}</Table.Td>
+                <Table.Td>{entry.status.title}</Table.Td>
+                {/* <Table.Td>{entry.startDate}</Table.Td> */}
+              </Table.Tr>
+            ))}
+          </Table.Tbody>
+        </Table>
+      )}
 
-          <div className="flex flex-wrap justify-center gap-8 mb-12">
-            <div className="text-center">
-              <div className="text-4xl font-display font-bold text-gold">
-                3
-              </div>
-              <div className="text-cream/50 text-sm uppercase tracking-wider">
-                курса
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-display font-bold text-gold">
-                2
-              </div>
-              <div className="text-cream/50 text-sm uppercase tracking-wider">
-                варианта оплаты
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              to="/register"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-copper to-copper-dark text-charcoal font-semibold text-lg transition-all hover:shadow-lg hover:shadow-copper/30 hover:scale-[1.02]"
-            >
-              <Users className="w-5 h-5" />
-              Зарегистрироваться
-            </Link>
-            <Link
-              to="/login"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full border-2 border-gold/50 text-gold font-semibold text-lg transition-all hover:bg-gold/10 hover:border-gold"
-            >
-              Войти
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-          </div>
-        </div>
-      </section>
+      {user !== "Admin" && <Link to="/entry">Добавить заявку</Link>}
     </>
   )
 }

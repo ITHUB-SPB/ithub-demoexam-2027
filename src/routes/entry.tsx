@@ -51,7 +51,7 @@ function EntryPage() {
         if (result.error) {
             setError(result.error)
         } else {
-            navigate({ to: '/profile' })
+            navigate({ to: '/' })
         }
     }
 
@@ -88,7 +88,7 @@ function EntryPage() {
                         <Button type="submit" fullWidth>Отправить</Button>
                     </form>
 
-                    <Link to="/profile">Вернуться к списку заявок</Link>
+                    <Link to="/">Вернуться к списку заявок</Link>
                 </div>
             </div>
         </div>

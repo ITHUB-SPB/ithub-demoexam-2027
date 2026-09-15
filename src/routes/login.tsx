@@ -2,6 +2,7 @@ import { type SubmitEvent, useState } from 'react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { TextInput, Button } from '@mantine/core'
 
+import HeroCarousel from '#/components/HeroCarousel'
 import { loginFn } from '../lib/login'
 
 
@@ -27,14 +28,15 @@ function LoginPage() {
     if (result.error) {
       setError(result.error)
     } else {
-      navigate({ to: '/profile' })
+      navigate({ to: '/' })
     }
   }
 
   return (
     <div className="min-h-screen">
-      <div className="relative py-16 px-6">
-        <div className="max-w-7xl mx-auto text-center">
+      <div className="relative flex flex-row min-h-screen">
+        <HeroCarousel />
+        <div className="mx-auto py-12 px-8 grow-1">
           <h1 className="font-display text-center text-5xl md:text-6xl font-bold text-cream mb-4">
             Вход в <span className="text-gold italic">аккаунт</span>{' '}
           </h1>
@@ -66,7 +68,7 @@ function LoginPage() {
             <Button type="submit" fullWidth>Войти</Button>
           </form>
 
-          <Link to="/register">Нет аккаунта? Зарегистрируйтесь!</Link>
+          <Link to="/register" className="text-center">Нет аккаунта? Зарегистрируйтесь!</Link>
         </div>
       </div>
     </div>
