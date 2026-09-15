@@ -10,6 +10,12 @@ async function seed() {
         'Основы проектирования баз данных'
     ]
 
+    const statuses = [
+        'Новая',
+        'Идёт обучение',
+        'Обучение завершено'
+    ]
+
     const users = [
         {email: 'admin@example.com', name: 'Admin', phone: '79992223311', username: 'Admin', password: 'KorokNET'},
         {email: 'user1@example.com', name: 'Иванов Максим Павлович', phone: '79992223322', username: 'user1', password: 'user1password'},
@@ -17,6 +23,14 @@ async function seed() {
 
     for (const title of courses) {
         await db.orm.public.Course.upsert({
+            create: { title },
+            update: { },
+            conflictOn: { title }
+        })
+    }
+
+    for (const title of statuses) {
+        await db.orm.public.Status.upsert({
             create: { title },
             update: { },
             conflictOn: { title }

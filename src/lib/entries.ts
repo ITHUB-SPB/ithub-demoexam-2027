@@ -1,4 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
+import { db } from "#/prisma/db";
+import type { Char } from "@prisma/orm-postgres/target/codec-types";
 
 const fakeEntries = [
     { 
@@ -34,4 +36,27 @@ export const getEntries = createServerFn()
         }
 
         return fakeEntries
+    })
+
+export const createEntry = createServerFn()
+    .validator((data: {
+        username: string,
+        courseId: Char<36>,
+        statusId: string,
+        paymentTypeId: string,
+        startDate: string
+    }) => data)
+    .handler(async ({ data }) => {
+        await db.orm.public.Entry.create({
+            courseId: data.courseId,
+            sta
+        })
+    })
+
+export const getInitialData = createServerFn()
+    .handler(async () => {
+        const courses = await db.orm.public.Course.all()
+        const statuses = await db.orm.public.Status.all()
+        const paymentTypes = await db.orm.public.PaymentType.all()
+        return { courses, statuses, paymentTypes }
     })
