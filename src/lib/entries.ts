@@ -4,40 +4,34 @@ import type { Char } from "@prisma/orm-postgres/target/codec-types";
 
 import { db } from "#/prisma/db";
 
-const fakeEntries = [
-    { 
-        id: 1, 
-        author: { username: 'testuser1' } ,
-        course: { id: 1, title: 'Основы ООП'},
-        payment: { id: 1, title: 'Наличные' },
-        startDate: new Date().toLocaleDateString('ru')
-    },
-    { 
-        id: 2, 
-        author: { username: 'testuser1' } ,
-        course: { id: 2, title: 'Алгоритмы'},
-        payment: { id: 2, title: 'Перевод' },
-        startDate: new Date().toLocaleDateString('ru')
-    },
-    { 
-        id: 3, 
-        author: { username: 'testuser2' } ,
-        course: { id: 2, title: 'Алгоритмы'},
-        payment: { id: 1, title: 'Наличные' },
-        startDate: new Date().toLocaleDateString('ru')
-    }
-]
-
 export const getEntries = createServerFn()
     .validator((data: {
         username?: string
     }) => data)
-    .handler(({ data }) => {
+    .handler(async ({ data }) => {
         if (data.username) {
-            return fakeEntries.filter(({ author }) => author.username === data.username)
+            const author = await db.orm.public.User
+                .where(user => user.username.eq(data.username))
+                .first()
+            
+            if (!author) {
+                return { error: "Пользователь не найден" }
+            }
+                
+            return await db.orm.public.Entry
+                .where(entry => entry.authorId.eq(author.id))
+                .include('course')
+                .include("paymentType")
+                .include("status")
+                .all()
         }
 
-        return fakeEntries
+        return await db.orm.public.Entry
+            .include('course')
+            .include("paymentType")
+            .include("status")
+            .include("author")
+            .all()
     })
 
 export const createEntry = createServerFn()
