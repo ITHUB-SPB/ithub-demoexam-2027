@@ -1,6 +1,6 @@
 import { PrismaClient } from '../src/generated/prisma/client.js'
-
 import { getDatabaseUrl } from '../src/database-url.js'
+import { hashPassword } from '#/lib/hash.js'
 
 import { PrismaPg } from '@prisma/adapter-pg'
 
@@ -17,11 +17,12 @@ async function main() {
 
   const users = await prisma.user.createMany({
     data: [
-      { email: "admin@example.com", login: "Admin", phone: "79223449123", fullname: "Админ Админович" },
+      { email: "admin@example.com", login: "Admin", phone: "79223449123", fullname: "Админ Админович", password: await hashPassword('KorokNET') },
+      { email: "testuser@example.com", login: "testuser", phone: "79223449124", fullname: "Юзер Юзерович", password: await hashPassword('testuser') },
     ],
   })
 
-  console.log(`✅ Created ${todos.count} todos`)
+  console.log(`✅ Created ${users.count} users`)
 }
 
 main()

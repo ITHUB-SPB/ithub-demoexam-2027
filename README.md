@@ -8,11 +8,29 @@
 npx @tanstack/cli@latest create
 ```
 
-2. docker run -p=5431:5432 -e POSTGRES_PASSWORD=postgres POSTGRES_DB=demo --name=demo postgres:18
+2. 
 
-3. npm run db:push
+```bash
+docker run -p=5431:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=demo --name=demo postgres:18
+```
 
-4. npm run db:generate
+3. 
+
+```bash
+npm run db:push
+```
+
+4. 
+
+```bash
+npm run db:generate
+```
+
+5. 
+
+```bash
+npm run db:seed
+```
 
 ## Описание
 
