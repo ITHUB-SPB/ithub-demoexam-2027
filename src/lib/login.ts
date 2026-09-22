@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { prisma } from "#/db";
+import { getPrismaClient } from "../db";
 import { verifyHash } from "./hash";
 
 type Result = {
@@ -16,6 +16,8 @@ export const login = createServerFn({ method: 'POST' })
     }) => data)
     .handler(async ({ data }): Promise<Result> => {
         try {
+            const prisma = getPrismaClient()
+
             const user = await prisma.user.findUniqueOrThrow({
                 where: {
                     login: data.login

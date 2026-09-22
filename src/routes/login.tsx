@@ -22,7 +22,7 @@ function RouteComponent() {
       return
     }
 
-    // await navigate({ to: '/' })
+    await navigate({ to: '/' })
   }
 
   const navigate = Route.useNavigate()
