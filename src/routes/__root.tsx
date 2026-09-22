@@ -21,6 +21,10 @@ export const Route = createRootRoute({
     links: [
       {
         rel: 'stylesheet',
+        href: '/pico.css',
+      },
+      {
+        rel: 'stylesheet',
         href: appCss,
       },
     ],

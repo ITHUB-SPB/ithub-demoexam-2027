@@ -30,14 +30,25 @@ function RouteComponent() {
     const navigate = Route.useNavigate()
 
     return (
-        <div>
-            <form action="" method="post" onSubmit={handleSubmit}>
-                <input type="text" name="login" placeholder='Логин' required />
-                <input type="password" name="password" placeholder='Пароль' required />
-                <input type="text" name="fullname" placeholder='ФИО' required />
-                <input type="email" name="email" placeholder='Почта' required />
-                <input type="tel" name="phone" placeholder='Телефон' required />
-                <button type="submit">Отправить</button>
+        <div className='page'>
+            <h2>Регистрация</h2>
+            <form className="form" action="" method="post" onSubmit={handleSubmit}>
+                <input className="input" type="text" name="login" placeholder='Логин' pattern='[a-zA-Z0-9]{6,}' required />
+                <p className="error">Заполните поле (латиница и цифры, не менее 6 символов)</p>
+
+                <input className="input" type="password" name="password" minLength={8} placeholder='Пароль' required />
+                <p className="error">Заполните поле (не менее 8 символов)</p>
+
+                <input className="input" type="text" name="fullname" placeholder='ФИО' pattern='[а-яА-Я ]{3,}' required />
+                <p className="error">Заполните поле (символы кириллицы и пробелы)</p>
+
+                <input className="input" type="email" name="email" placeholder='Почта' required />
+                <p className="error">Заполните поле (формат электронной почты)</p>
+
+                <input className="input" type="tel" name="phone" placeholder='Телефон' pattern='8\(\d{3}\)\d{3}-\d{2}-\d{2}' required />
+                <p className="error">Заполните поле (формат 8(ххх)ххх-хх-хх)</p>
+
+                <button className="button-submit" type="submit">Отправить</button>
             </form>
         </div>
     )
