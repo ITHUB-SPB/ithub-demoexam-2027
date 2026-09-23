@@ -1,13 +1,30 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
+import { getUser } from '#/lib/login'
 
-export const Route = createFileRoute('/')({ component: Home })
+export const Route = createFileRoute('/')({
+  beforeLoad: async () => {
+    const { login } = await getUser();
+
+    if (login === null) {
+      throw redirect({ to: '/login' })
+    }
+
+    return { login }
+  },
+  loader: async ({ context }) => {
+    return context.login
+  },
+  component: Home
+})
 
 function Home() {
+  const login = Route.useLoaderData()
+
   return (
     <div className="page">
       <nav>
         <h1>KorokNET</h1>
-        <span>Testuser2</span>
+        <span>{login}</span>
         <button>Выйти</button>
       </nav>
 
