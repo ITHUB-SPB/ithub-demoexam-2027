@@ -2,7 +2,7 @@ import { type SubmitEvent, useState } from 'react';
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
 // import { getUser } from '#/lib/login'
-import { createEntry } from '#/lib/entries';
+import { createEntry, getEntries } from '#/lib/entries';
 
 export const Route = createFileRoute('/')({
   beforeLoad: async () => {
@@ -12,16 +12,23 @@ export const Route = createFileRoute('/')({
     //   throw redirect({ to: '/login' })
     // }
 
-    return { login: "testuser" }
+    // return { login: "testuser" }
+    return { login: "Admin" }
   },
   loader: async ({ context }) => {
-    return context.login
+    const isAdmin = context.login === 'Admin'
+
+    const { entries } = await getEntries({
+      data: { username: isAdmin ? undefined : context.login }
+    })
+
+    return { login: context.login, entries }
   },
   component: Home
 })
 
 function Home() {
-  const login = Route.useLoaderData()
+  const { login, entries } = Route.useLoaderData()
 
   const handleSubmit = async (event: SubmitEvent) => {
     const formData = new FormData(event.target)
@@ -62,43 +69,35 @@ function Home() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>
-              <select name="" id="">
-                <option>Новая</option>
-                <option>В процессе</option>
-                <option>Завершен</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
+          {entries.map(entry => (
+            <tr key={entry.id}>
+              <td>{entry.course}</td>
+              <td>{entry.paymentType}</td>
+              <td>{entry.startAt.toLocaleDateString('ru')}</td>
+              <td>
+                {login === 'Admin' ? (
+                  <select name="" id="">
+                    <option>Новая</option>
+                    <option>В процессе</option>
+                    <option>Завершен</option>
+                  </select>
+                ) : entry.status}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
 
       <p>{error}</p>
       <form className="form" action="" method="post" onSubmit={handleSubmit}>
         <select className="input" name="course" defaultValue="algo" required>
-          <option value="algo">Алгоритмы</option>
-          <option value="coding">Основы программирования</option>
-          <option value="rdbs">СУБД</option>
+          <option value="Алгоритмы">Алгоритмы</option>
+          <option value="Основы программирования">Основы программирования</option>
+          <option value="СУБД">СУБД</option>
         </select>
         <select className="input" name="paymentType" defaultValue="cash" required>
-          <option value="cash">Наличными</option>
-          <option value="card">Переводом</option>
+          <option value="Наличными">Наличными</option>
+          <option value="Переводом">Переводом</option>
         </select>
         <input className="input" type="date" name="startAt" placeholder='Дата начала' required />
         <p className="error">Заполните поле</p>
