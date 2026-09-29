@@ -1,8 +1,9 @@
 import { type SubmitEvent, useState } from 'react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Swiper, SwiperSlide } from 'swiper/react'
 
 import { login } from '#/lib/login'
+
+import Slider from '#/components/slider'
 
 export const Route = createFileRoute('/login')({
   component: RouteComponent,
@@ -33,6 +34,7 @@ function RouteComponent() {
   return (
     <div className='page'>
 
+      <Slider />
 
       <article>
         <h2>Авторизация</h2>

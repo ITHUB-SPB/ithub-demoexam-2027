@@ -3,7 +3,6 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 
 import appCss from '../styles.css?url'
-import swiperCss from 'swiper/css?url'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -23,10 +22,6 @@ export const Route = createRootRoute({
       {
         rel: 'stylesheet',
         href: '/pico.css',
-      },
-      {
-        rel: 'stylesheet',
-        href: swiperCss,
       },
       {
         rel: 'stylesheet',

@@ -35,7 +35,11 @@ export const getEntries = createServerFn({ method: "POST" })
 
         if (!data.username) {
             return {
-                entries: await prisma.entry.findMany()
+                entries: await prisma.entry.findMany({
+                    include: {
+                        user: true
+                    }
+                })
             }
         }
 

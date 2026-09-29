@@ -2,6 +2,8 @@ import { type SubmitEvent, useState } from 'react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { register } from '#/lib/register'
 
+import Slider from '#/components/slider'
+
 export const Route = createFileRoute('/register')({
     component: RouteComponent,
 })
@@ -34,6 +36,8 @@ function RouteComponent() {
 
     return (
         <div className='page'>
+            <Slider />
+
             <article>
                 <h2>Регистрация</h2>
                 <p>{error}</p>

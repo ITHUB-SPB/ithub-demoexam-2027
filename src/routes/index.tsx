@@ -15,8 +15,8 @@ export const Route = createFileRoute('/')({
     //   throw redirect({ to: '/login' })
     // }
 
-    return { login: "testuser" }
-    // return { login: "Admin" }
+    // return { login: "testuser" }
+    return { login: "Admin" }
   },
   loader: async ({ context }) => {
     const isAdmin = context.login === 'Admin'
@@ -106,6 +106,7 @@ function Home() {
         <table>
           <thead>
             <tr>
+              {login == 'Admin' && <th>Заявитель</th>}
               <th>Курс</th>
               <th>Тип оплаты</th>
               <th>Дата начала</th>
@@ -115,6 +116,7 @@ function Home() {
           <tbody>
             {entries.map(entry => (
               <tr key={entry.id}>
+                {login == 'Admin' && <td>{entry?.user?.fullname}</td>}
                 <td>{entry.course}</td>
                 <td>{entry.paymentType}</td>
                 <td>{entry.startAt.toLocaleDateString('ru')}</td>
@@ -135,7 +137,7 @@ function Home() {
         </table>
       </article>
 
-      <article>
+      {login !== 'Admin' ? <article>
         <h2>Новая заявка</h2>
         <p>{error}</p>
         <form className="form" action="" method="post" onSubmit={handleAdd}>
@@ -153,6 +155,7 @@ function Home() {
           <button className="button-submit" type="submit">Отправить</button>
         </form>
       </article>
+        : null}
 
       <article>
         <h2>Отзывы</h2>
@@ -161,16 +164,18 @@ function Home() {
             <section>
               {reviews.map(review => <p>{review.text} ({review.createdAt.toLocaleDateString('ru')})</p>)}
             </section>
-            <details>
-              <summary>Оставить отзыв</summary>
-              <form className="form" action="" method="post" onSubmit={handleReview}>
-                <p className="error">Заполните поле</p>
-                <textarea rows={5} name="text"></textarea>
-                <button className="button-submit" type="submit">Отправить</button>
-              </form>
-            </details>
+            {login !== 'Admin' ? (
+              <details>
+                <summary>Оставить отзыв</summary>
+                <form className="form" action="" method="post" onSubmit={handleReview}>
+                  <p className="error">Заполните поле</p>
+                  <textarea rows={5} name="text"></textarea>
+                  <button className="button-submit" type="submit">Отправить</button>
+                </form>
+              </details>
+            ) : null}
           </>
-        ) : <p>Чтобы оставить отзыв, завершите один из курсов</p>}
+        ) : <p>Не завершен ни один из курсов</p>}
       </article>
     </div>
   )
