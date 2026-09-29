@@ -3,6 +3,7 @@ import { createFileRoute, redirect } from '@tanstack/react-router'
 
 // import { getUser } from '#/lib/login'
 import { createEntry, getEntries, updateStatus } from '#/lib/entries';
+import { getReviews, createReview } from '#/lib/reviews';
 
 export const Route = createFileRoute('/')({
   beforeLoad: async () => {
@@ -12,8 +13,8 @@ export const Route = createFileRoute('/')({
     //   throw redirect({ to: '/login' })
     // }
 
-    // return { login: "testuser" }
-    return { login: "Admin" }
+    return { login: "testuser" }
+    // return { login: "Admin" }
   },
   loader: async ({ context }) => {
     const isAdmin = context.login === 'Admin'
@@ -22,6 +23,8 @@ export const Route = createFileRoute('/')({
       data: { username: isAdmin ? undefined : context.login }
     })
 
+    // TODO ревью
+
     return { login: context.login, entries }
   },
   component: Home
@@ -29,9 +32,10 @@ export const Route = createFileRoute('/')({
 
 function Home() {
   const { login, entries } = Route.useLoaderData()
+  const navigate = Route.useNavigate()
   const [error, setError] = useState<null | string>(null)
 
-  const handleSubmit = async (event: SubmitEvent) => {
+  const handleAdd = async (event: SubmitEvent) => {
     const formData = new FormData(event.target)
 
     const result = await createEntry({
@@ -53,6 +57,18 @@ function Home() {
 
     if (!result.success) {
       setError(result.message)
+      return
+    }
+
+    await navigate({ to: '/' })
+  }
+
+  const handleReview = async (text: string) => {
+    const result = await createReview({ data: { login, text } })
+
+    if (!result.success) {
+      setError(result.message)
+      return
     }
   }
 
@@ -82,13 +98,15 @@ function Home() {
               <td>{entry.paymentType}</td>
               <td>{entry.startAt.toLocaleDateString('ru')}</td>
               <td>
-                {login === 'Admin' ? (
-                  <select onChange={(event) => handleUpdate(entry.id, event.target.value)}>
-                    <option>Новая</option>
-                    <option>В процессе</option>
-                    <option>Завершен</option>
-                  </select>
-                ) : entry.status}
+                <select
+                  value={entry.status ?? "Новая"}
+                  onChange={(event) => handleUpdate(entry.id, event.target.value)}
+                  disabled={login !== 'Admin'}
+                >
+                  <option value="Новая">Новая</option>
+                  <option value="В процессе">В процессе</option>
+                  <option value="Завершен">Завершен</option>
+                </select>
               </td>
             </tr>
           ))}
@@ -96,13 +114,14 @@ function Home() {
       </table>
 
       <p>{error}</p>
-      <form className="form" action="" method="post" onSubmit={handleSubmit}>
-        <select className="input" name="course" defaultValue="algo" required>
+
+      <form className="form" action="" method="post" onSubmit={handleAdd}>
+        <select className="input" name="course" defaultValue="Алгоритмы" required>
           <option value="Алгоритмы">Алгоритмы</option>
           <option value="Основы программирования">Основы программирования</option>
           <option value="СУБД">СУБД</option>
         </select>
-        <select className="input" name="paymentType" defaultValue="cash" required>
+        <select className="input" name="paymentType" defaultValue="Наличными" required>
           <option value="Наличными">Наличными</option>
           <option value="Переводом">Переводом</option>
         </select>
@@ -110,6 +129,15 @@ function Home() {
         <p className="error">Заполните поле</p>
         <button className="button-submit" type="submit">Отправить</button>
       </form>
+
+      <details>
+        <summary>Оставить отзыв</summary>
+        <form className="form" action="" method="post" onSubmit={handleReview}>
+          <p className="error">Заполните поле</p>
+          <textarea rows={5}></textarea>
+          <button className="button-submit" type="submit">Отправить</button>
+        </form>
+      </details>
     </div>
   )
 }
