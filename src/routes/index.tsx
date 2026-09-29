@@ -2,7 +2,7 @@ import { type SubmitEvent, useState } from 'react';
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
 // import { getUser } from '#/lib/login'
-import { createEntry, getEntries } from '#/lib/entries';
+import { createEntry, getEntries, updateStatus } from '#/lib/entries';
 
 export const Route = createFileRoute('/')({
   beforeLoad: async () => {
@@ -29,6 +29,7 @@ export const Route = createFileRoute('/')({
 
 function Home() {
   const { login, entries } = Route.useLoaderData()
+  const [error, setError] = useState<null | string>(null)
 
   const handleSubmit = async (event: SubmitEvent) => {
     const formData = new FormData(event.target)
@@ -47,7 +48,13 @@ function Home() {
     }
   }
 
-  const [error, setError] = useState<null | string>(null)
+  const handleUpdate = async (id: number, status: string) => {
+    const result = await updateStatus({ data: { id, status } })
+
+    if (!result.success) {
+      setError(result.message)
+    }
+  }
 
   return (
     <div className="page">
@@ -76,7 +83,7 @@ function Home() {
               <td>{entry.startAt.toLocaleDateString('ru')}</td>
               <td>
                 {login === 'Admin' ? (
-                  <select name="" id="">
+                  <select onChange={(event) => handleUpdate(entry.id, event.target.value)}>
                     <option>Новая</option>
                     <option>В процессе</option>
                     <option>Завершен</option>
