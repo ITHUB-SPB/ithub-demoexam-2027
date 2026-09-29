@@ -50,6 +50,8 @@ function Home() {
       setError(result.message)
       return
     }
+
+    await navigate({ to: '/' })
   }
 
   const handleUpdate = async (id: number, status: string) => {
@@ -63,13 +65,22 @@ function Home() {
     await navigate({ to: '/' })
   }
 
-  const handleReview = async (text: string) => {
-    const result = await createReview({ data: { login, text } })
+  const handleReview = async (event: SubmitEvent) => {
+    const formData = new FormData(event.target)
+
+    const result = await createReview({
+      data: {
+        login,
+        text: formData.get('text')!.toString()
+      }
+    })
 
     if (!result.success) {
       setError(result.message)
       return
     }
+
+    await navigate({ to: '/' })
   }
 
   return (
@@ -134,7 +145,7 @@ function Home() {
         <summary>Оставить отзыв</summary>
         <form className="form" action="" method="post" onSubmit={handleReview}>
           <p className="error">Заполните поле</p>
-          <textarea rows={5}></textarea>
+          <textarea rows={5} name="text"></textarea>
           <button className="button-submit" type="submit">Отправить</button>
         </form>
       </details>

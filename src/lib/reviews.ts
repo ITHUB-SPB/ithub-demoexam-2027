@@ -10,7 +10,7 @@ export const getReviews = createServerFn({ method: "POST" })
 
         if (!data.username) {
             return {
-                entries: await prisma.review.findMany()
+                reviews: await prisma.review.findMany()
             }
         }
 
@@ -38,7 +38,9 @@ export const createReview = createServerFn({ method: "POST" })
                 data: {
                     text: data.text,
                     user: {
-                        username: login
+                        connect: {
+                            login: data.login
+                        }
                     }
                 }
             })

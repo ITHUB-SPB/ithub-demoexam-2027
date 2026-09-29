@@ -15,6 +15,7 @@ model User {
   phone     String
   email     String
   entries   Entry[]
+  reviews   Review[]
 }
 
 model Entry {
@@ -26,4 +27,12 @@ model Entry {
   startAt       DateTime
   status        String?  @default("Новая")
   createdAt     DateTime @default(now())
+}
+
+model Review {
+  id          Int       @id @default(autoincrement())
+  text        String
+  userId      Int      
+  user        User      @relation(fields: [userId], references: [id])
+  createdAt   DateTime  @default(now())
 }
