@@ -1,5 +1,7 @@
 import { type SubmitEvent, useState } from 'react'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
+import { Swiper, SwiperSlide } from 'swiper/react'
+
 import { login } from '#/lib/login'
 
 export const Route = createFileRoute('/login')({
@@ -30,18 +32,24 @@ function RouteComponent() {
 
   return (
     <div className='page'>
-      <h2>Авторизация</h2>
-      <p>{error}</p>
 
-      <form className="form" action="" method="post" onSubmit={handleSubmit}>
-        <input className="input" type="text" name="login" placeholder='Логин' required />
-        <p className="error">Заполните поле</p>
 
-        <input className="input" type="password" name="password" placeholder='Пароль' required />
-        <p className="error">Заполните поле</p>
+      <article>
+        <h2>Авторизация</h2>
+        <p>{error}</p>
 
-        <button className="button-submit" type="submit">Отправить</button>
-      </form>
+        <form className="form" action="" method="post" onSubmit={handleSubmit}>
+          <input className="input" type="text" name="login" placeholder='Логин' required />
+          <p className="error">Заполните поле</p>
+
+          <input className="input" type="password" name="password" placeholder='Пароль' required />
+          <p className="error">Заполните поле</p>
+
+          <button className="button-submit" type="submit">Отправить</button>
+        </form>
+
+        <Link to="/register">Еще не зарегистрированы? Регистрация</Link>
+      </article>
     </div>
   )
 }

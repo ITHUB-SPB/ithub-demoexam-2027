@@ -5,6 +5,8 @@ import { createFileRoute, redirect } from '@tanstack/react-router'
 import { createEntry, getEntries, updateStatus } from '#/lib/entries';
 import { getReviews, createReview } from '#/lib/reviews';
 
+import logo from '../assets/branding/image02.jpg'
+
 export const Route = createFileRoute('/')({
   beforeLoad: async () => {
     // const { login } = await getUser();
@@ -23,15 +25,19 @@ export const Route = createFileRoute('/')({
       data: { username: isAdmin ? undefined : context.login }
     })
 
-    // TODO ревью
+    const { reviews } = await getReviews({
+      data: { username: isAdmin ? undefined : context.login }
+    })
 
-    return { login: context.login, entries }
+    const hasCompletedCourses = entries.some(({ status }) => status === "Завершен")
+
+    return { login: context.login, entries, reviews, hasCompletedCourses }
   },
   component: Home
 })
 
 function Home() {
-  const { login, entries } = Route.useLoaderData()
+  const { login, entries, reviews, hasCompletedCourses } = Route.useLoaderData()
   const navigate = Route.useNavigate()
   const [error, setError] = useState<null | string>(null)
 
@@ -85,70 +91,87 @@ function Home() {
 
   return (
     <div className="page">
-      <nav>
-        <h1>KorokNET</h1>
+      <nav className="nav">
+        <h1>
+          <img src={logo} className='logo' />
+          KorokNET
+        </h1>
         <span>{login}</span>
         <button>Выйти</button>
       </nav>
 
-      <h2>Заявки</h2>
+      <article>
+        <h2>Заявки</h2>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Курс</th>
-            <th>Тип оплаты</th>
-            <th>Дата начала</th>
-            <th>Статус</th>
-          </tr>
-        </thead>
-        <tbody>
-          {entries.map(entry => (
-            <tr key={entry.id}>
-              <td>{entry.course}</td>
-              <td>{entry.paymentType}</td>
-              <td>{entry.startAt.toLocaleDateString('ru')}</td>
-              <td>
-                <select
-                  value={entry.status ?? "Новая"}
-                  onChange={(event) => handleUpdate(entry.id, event.target.value)}
-                  disabled={login !== 'Admin'}
-                >
-                  <option value="Новая">Новая</option>
-                  <option value="В процессе">В процессе</option>
-                  <option value="Завершен">Завершен</option>
-                </select>
-              </td>
+        <table>
+          <thead>
+            <tr>
+              <th>Курс</th>
+              <th>Тип оплаты</th>
+              <th>Дата начала</th>
+              <th>Статус</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {entries.map(entry => (
+              <tr key={entry.id}>
+                <td>{entry.course}</td>
+                <td>{entry.paymentType}</td>
+                <td>{entry.startAt.toLocaleDateString('ru')}</td>
+                <td>
+                  <select
+                    value={entry.status ?? "Новая"}
+                    onChange={(event) => handleUpdate(entry.id, event.target.value)}
+                    disabled={login !== 'Admin'}
+                  >
+                    <option value="Новая">Новая</option>
+                    <option value="В процессе">В процессе</option>
+                    <option value="Завершен">Завершен</option>
+                  </select>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </article>
 
-      <p>{error}</p>
-
-      <form className="form" action="" method="post" onSubmit={handleAdd}>
-        <select className="input" name="course" defaultValue="Алгоритмы" required>
-          <option value="Алгоритмы">Алгоритмы</option>
-          <option value="Основы программирования">Основы программирования</option>
-          <option value="СУБД">СУБД</option>
-        </select>
-        <select className="input" name="paymentType" defaultValue="Наличными" required>
-          <option value="Наличными">Наличными</option>
-          <option value="Переводом">Переводом</option>
-        </select>
-        <input className="input" type="date" name="startAt" placeholder='Дата начала' required />
-        <p className="error">Заполните поле</p>
-        <button className="button-submit" type="submit">Отправить</button>
-      </form>
-
-      <details>
-        <summary>Оставить отзыв</summary>
-        <form className="form" action="" method="post" onSubmit={handleReview}>
+      <article>
+        <h2>Новая заявка</h2>
+        <p>{error}</p>
+        <form className="form" action="" method="post" onSubmit={handleAdd}>
+          <select className="input" name="course" defaultValue="Алгоритмы" required>
+            <option value="Алгоритмы">Алгоритмы</option>
+            <option value="Основы программирования">Основы программирования</option>
+            <option value="СУБД">СУБД</option>
+          </select>
+          <select className="input" name="paymentType" defaultValue="Наличными" required>
+            <option value="Наличными">Наличными</option>
+            <option value="Переводом">Переводом</option>
+          </select>
+          <input className="input" type="date" name="startAt" placeholder='Дата начала' required />
           <p className="error">Заполните поле</p>
-          <textarea rows={5} name="text"></textarea>
           <button className="button-submit" type="submit">Отправить</button>
         </form>
-      </details>
+      </article>
+
+      <article>
+        <h2>Отзывы</h2>
+        {hasCompletedCourses ? (
+          <>
+            <section>
+              {reviews.map(review => <p>{review.text} ({review.createdAt.toLocaleDateString('ru')})</p>)}
+            </section>
+            <details>
+              <summary>Оставить отзыв</summary>
+              <form className="form" action="" method="post" onSubmit={handleReview}>
+                <p className="error">Заполните поле</p>
+                <textarea rows={5} name="text"></textarea>
+                <button className="button-submit" type="submit">Отправить</button>
+              </form>
+            </details>
+          </>
+        ) : <p>Чтобы оставить отзыв, завершите один из курсов</p>}
+      </article>
     </div>
   )
 }

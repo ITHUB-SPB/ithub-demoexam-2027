@@ -13,7 +13,7 @@ body {
 }
 
 .page {
-  max-width: min(860px, 90%);
+  max-width: min(920px, 90%);
   margin: 10dvh auto;
   display: flex;
   flex-direction: column;
@@ -37,4 +37,13 @@ body {
 .form:has(:invalid)>.button-submit {
   pointer-events: none;
   opacity: 0.4;
+}
+
+.logo {
+  height: 60px;
+  margin-right: 20px;
+}
+
+.nav {
+  align-items: center;
 }
