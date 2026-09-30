@@ -28,7 +28,7 @@ export const updateStatus = createServerFn({ method: "POST" })
 
 export const getEntries = createServerFn({ method: "POST" })
     .validator((data: {
-        username?: string,
+        username: string | null,
     }) => data)
     .handler(async ({ data }) => {
         const prisma = getPrismaClient()
@@ -47,7 +47,10 @@ export const getEntries = createServerFn({ method: "POST" })
             where: {
                 user: {
                     login: data.username
-                }
+                },
+            },
+            include: {
+                user: true
             }
         })
 

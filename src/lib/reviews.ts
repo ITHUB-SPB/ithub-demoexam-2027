@@ -3,14 +3,18 @@ import { getPrismaClient } from "#/db";
 
 export const getReviews = createServerFn({ method: "POST" })
     .validator((data: {
-        username?: string,
+        username: string | null,
     }) => data)
     .handler(async ({ data }) => {
         const prisma = getPrismaClient()
 
         if (!data.username) {
             return {
-                reviews: await prisma.review.findMany()
+                reviews: await prisma.review.findMany({
+                    include: {
+                        user: true
+                    }
+                })
             }
         }
 
@@ -18,7 +22,10 @@ export const getReviews = createServerFn({ method: "POST" })
             where: {
                 user: {
                     login: data.username
-                }
+                },
+            },
+            include: {
+                user: true
             }
         })
 

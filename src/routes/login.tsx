@@ -15,8 +15,8 @@ function RouteComponent() {
 
     const result = await login({
       data: {
-        login: formData.get('login') as string,
-        password: formData.get('password') as string,
+        login: formData.get('login')?.toString() as string,
+        password: formData.get('password')?.toString() as string,
       }
     })
 

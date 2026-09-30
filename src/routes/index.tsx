@@ -15,18 +15,15 @@ export const Route = createFileRoute('/')({
     //   throw redirect({ to: '/login' })
     // }
 
-    // return { login: "testuser" }
-    return { login: "Admin" }
+    return { login: "testuser" }
   },
   loader: async ({ context }) => {
-    const isAdmin = context.login === 'Admin'
-
     const { entries } = await getEntries({
-      data: { username: isAdmin ? undefined : context.login }
+      data: { username: context.login }
     })
 
     const { reviews } = await getReviews({
-      data: { username: isAdmin ? undefined : context.login }
+      data: { username: context.login }
     })
 
     const hasCompletedCourses = entries.some(({ status }) => status === "Завершен")
@@ -109,7 +106,6 @@ function Home() {
         <table>
           <thead>
             <tr>
-              {login == 'Admin' && <th>Заявитель</th>}
               <th>Курс</th>
               <th>Тип оплаты</th>
               <th>Дата начала</th>
@@ -119,28 +115,17 @@ function Home() {
           <tbody>
             {entries.map(entry => (
               <tr key={entry.id}>
-                {login == 'Admin' && <td>{entry?.user?.fullname}</td>}
                 <td>{entry.course}</td>
                 <td>{entry.paymentType}</td>
                 <td>{entry.startAt.toLocaleDateString('ru')}</td>
-                <td>
-                  <select
-                    value={entry.status ?? "Новая"}
-                    onChange={(event) => handleUpdate(entry.id, event.target.value)}
-                    disabled={login !== 'Admin'}
-                  >
-                    <option value="Новая">Новая</option>
-                    <option value="В процессе">В процессе</option>
-                    <option value="Завершен">Завершен</option>
-                  </select>
-                </td>
+                <td>{entry.status ?? "Новая"}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </article>
 
-      {login !== 'Admin' ? <article>
+      <article>
         <h2>Новая заявка</h2>
         <p>{error}</p>
         <form className="form" action="" method="post" onSubmit={handleAdd}>
@@ -158,7 +143,6 @@ function Home() {
           <button className="button-submit" type="submit">Отправить</button>
         </form>
       </article>
-        : null}
 
       <article>
         <h2>Отзывы</h2>
@@ -167,16 +151,14 @@ function Home() {
             <section>
               {reviews.map(review => <p>{review.text} ({review.createdAt.toLocaleDateString('ru')})</p>)}
             </section>
-            {login !== 'Admin' ? (
-              <details>
-                <summary>Оставить отзыв</summary>
-                <form className="form" action="" method="post" onSubmit={handleReview}>
-                  <p className="error">Заполните поле</p>
-                  <textarea rows={5} name="text"></textarea>
-                  <button className="button-submit" type="submit">Отправить</button>
-                </form>
-              </details>
-            ) : null}
+            <details>
+              <summary>Оставить отзыв</summary>
+              <form className="form" action="" method="post" onSubmit={handleReview}>
+                <p className="error">Заполните поле</p>
+                <textarea rows={5} name="text"></textarea>
+                <button className="button-submit" type="submit">Отправить</button>
+              </form>
+            </details>
           </>
         ) : <p>Не завершен ни один из курсов</p>}
       </article>
