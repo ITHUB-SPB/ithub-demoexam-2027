@@ -1,11 +1,16 @@
-import { type SubmitEvent, useState } from 'react';
+import { useState } from 'react';
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
 import { getUser, logout } from '#/lib/login'
-import { createEntry, getEntries, updateStatus } from '#/lib/entries';
-import { getReviews, createReview } from '#/lib/reviews';
+import { getEntries, updateStatus } from '#/lib/entries';
+import { getReviews } from '#/lib/reviews';
 
 import logo from '../assets/branding/image02.jpg'
+
+type Filters = {
+  paymentType: string | null,
+  course: string | null
+}
 
 export const Route = createFileRoute('/admin')({
   beforeLoad: async () => {
@@ -37,6 +42,47 @@ function Home() {
   const navigate = Route.useNavigate()
   const [error, setError] = useState<null | string>(null)
 
+  const [currentFilters, setCurrentFilters] = useState<Filters>({
+    paymentType: null,
+    course: null
+  })
+
+  const [currentPage, setCurrentPage] = useState<number>(1)
+
+  const getVisibleEntries = () => {
+    let filteredEntries = [...entries]
+
+    if (currentFilters.paymentType) {
+      filteredEntries = filteredEntries.filter(
+        ({ paymentType }) => paymentType === currentFilters.paymentType
+      )
+    }
+
+    if (currentFilters.course) {
+      filteredEntries = filteredEntries.filter(
+        ({ course }) => course === currentFilters.course
+      )
+    }
+
+    return filteredEntries
+  }
+
+  const pages = Math.ceil(getVisibleEntries().length / 3)
+
+  const handleCourseFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCurrentFilters(filters => ({
+      ...filters,
+      course: event.target.value === "null" ? null : event.target.value
+    }))
+  }
+
+  const handlePaymentFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCurrentFilters(filters => ({
+      ...filters,
+      paymentType: event.target.value === "null" ? null : event.target.value
+    }))
+  }
+
   const handleUpdate = async (id: number, status: string) => {
     const result = await updateStatus({ data: { id, status } })
 
@@ -64,7 +110,23 @@ function Home() {
       </nav>
 
       <article>
-        <h2>Заявки</h2>
+        <div className="entries-admin">
+          <h2>Заявки</h2>
+          <select onChange={handleCourseFilter}
+            className="input input--filter"
+            value={currentFilters['course'] ?? ""}
+          >
+            <option value="null">Все курсы</option>
+            <option value="Алгоритмы">Алгоритмы</option>
+            <option value="Основы программирования">Основы программирования</option>
+            <option value="СУБД">СУБД</option>
+          </select>
+          <select onChange={handlePaymentFilter} className="input input--filter" value={currentFilters['paymentType'] ?? ""}>
+            <option value="null">Все виды оплаты</option>
+            <option value="Наличными">Наличными</option>
+            <option value="Переводом">Переводом</option>
+          </select>
+        </div>
 
         <table>
           <thead>
@@ -77,7 +139,7 @@ function Home() {
             </tr>
           </thead>
           <tbody>
-            {entries.map(entry => (
+            {getVisibleEntries().slice((currentPage - 1) * 3, currentPage * 3).map(entry => (
               <tr key={entry.id}>
                 <td>{entry.user?.fullname}</td>
                 <td>{entry.course}</td>
@@ -98,6 +160,14 @@ function Home() {
             ))}
           </tbody>
         </table>
+        {pages > 1 ? (
+          <section className='pagination'>
+            {Array(pages).fill(null).map((_, index) => (
+              <button className={`pagination-button ${index + 1 === currentPage ? 'pagination-button--active' : ''}`} onClick={() => setCurrentPage(index + 1)}>{index + 1}</button>
+            ))}
+          </section>
+        ) : null}
+
       </article>
 
       <article>
