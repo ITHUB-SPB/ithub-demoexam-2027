@@ -32,7 +32,7 @@ function RouteComponent() {
   const [error, setError] = useState<null | string>(null)
 
   return (
-    <div className='page'>
+    <div className='page page--auth'>
 
       <Slider />
 
