@@ -16,13 +16,13 @@ export const useAppSession = createServerOnlyFn(() => {
     return useSession<Session>({ password: process.env.SESSION_SECRET! })
 })
 
-export const getUser = createServerFn().handler(async (): Promise<Result & User> => {
+export const getUser = createServerFn({ method: "GET" }).handler(async (): Promise<Result & User> => {
     const session = await useAppSession()
 
     return { success: true, login: session.data.login ?? null }
 })
 
-export const logout = createServerFn().handler(async (): Promise<Result> => {
+export const logout = createServerFn({ method: "GET" }).handler(async (): Promise<Result> => {
     const session = await useAppSession()
     await session.clear()
     return { success: true }

@@ -1,7 +1,7 @@
 import { type SubmitEvent, useState } from 'react';
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
-// import { getUser } from '#/lib/login'
+import { getUser, logout } from '#/lib/login'
 import { createEntry, getEntries, updateStatus } from '#/lib/entries';
 import { getReviews, createReview } from '#/lib/reviews';
 
@@ -97,7 +97,10 @@ function Home() {
           KorokNET
         </h1>
         <span>{login}</span>
-        <button>Выйти</button>
+        <button onClick={async () => {
+          await logout()
+          navigate({ to: "/login" })
+        }}>Выйти</button>
       </nav>
 
       <article>
