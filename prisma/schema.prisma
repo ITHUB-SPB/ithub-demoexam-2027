@@ -8,13 +8,9 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  login     String   @unique 
+
 }
 
 model Entry {
-  id            Int      @id @default(autoincrement())
-  userId        Int      
-  user          User     @relation(fields: [userId], references: [id]) 
-  status        String?  @default("Новая")
+
 }
