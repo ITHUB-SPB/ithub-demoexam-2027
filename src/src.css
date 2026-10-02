@@ -1,0 +1,7 @@
+@import 'tailwindcss';
+
+@media (max-width: 420px) {
+  table {
+    font-size: 12px;
+  }
+}
