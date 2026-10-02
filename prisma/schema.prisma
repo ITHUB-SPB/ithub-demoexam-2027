@@ -10,6 +10,11 @@ datasource db {
 model User {
   id        Int      @id @default(autoincrement())
   login     String   @unique 
+  password  String
+  email     String
+  fullname  String
+  number    String
+  entries   Entry[]
 }
 
 model Entry {
@@ -17,4 +22,7 @@ model Entry {
   userId        Int      
   user          User     @relation(fields: [userId], references: [id]) 
   status        String?  @default("Новая")
+  startAt       DateTime @default(now())
+  paymentType   String
+  course        String
 }

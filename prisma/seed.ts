@@ -17,8 +17,8 @@ async function main() {
 
   const users = await prisma.user.createMany({
     data: [
-      { email: "admin@example.com", login: "Admin", phone: "79223449123", fullname: "Админ Админович", password: await hashPassword('KorokNET') },
-      { email: "testuser@example.com", login: "testuser", phone: "79223449124", fullname: "Юзер Юзерович", password: await hashPassword('testuser') },
+      { email: "admin@example.com", login: "Admin", number: "79223449123", fullname: "Админ Админович", password: await hashPassword('KorokNET') },
+      { email: "testuser@example.com", login: "testuser", number: "79223449124", fullname: "Юзер Юзерович", password: await hashPassword('testuser') },
     ],
   })
 
