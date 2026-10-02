@@ -8,9 +8,31 @@ datasource db {
 }
 
 model User {
-
+  id    Int   @id   @default(autoincrement())
+  login   String    @unique
+  password  String
+  fullname    String
+  phone     String
+  email     String
+  entry     Entry[]
+  review    Review[]
 }
 
 model Entry {
+  id    Int   @id   @default(autoincrement())
+  course  String
+  paymentType   String
+  userId      Int
+  startAt   DateTime
+  createAt    DateTime    @default(now())
+  status    String?    @default("Новая")
+  user      User    @relation(fields: [userId], references: [id])
+}
 
+model Review {
+  id      Int     @id   @default(autoincrement())
+  userId  Int
+  text    String
+  createdAt   DateTime  @default(now())
+  user   User   @relation(fields: [userId], references: [id])
 }
