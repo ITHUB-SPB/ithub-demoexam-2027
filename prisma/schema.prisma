@@ -1,3 +1,8 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
@@ -7,10 +12,39 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
 
+// Роль пользователя (пользователь или админ)
+enum Role {
+  USER
+  ADMIN
 }
 
-model Entry {
+// Статус заявки
+enum ApplicationStatus {
+  NEW          // Новая
+  IN_PROGRESS  // Идет обучение
+  COMPLETED    // Обучение завершено
+}
 
+model User {
+  id       Int    @id @default(autoincrement())
+  login    String @unique
+  password String
+  fullName String
+  phone    String
+  email    String @unique
+  role     Role   @default(USER)
+
+  applications Application[]
+}
+
+model Application {
+  id             Int               @id @default(autoincrement())
+  courseName     String
+  startDate      String
+  paymentMethod  String
+  status         ApplicationStatus @default(NEW)
+  review         String?           // Отзыв о курсе
+  userId         Int
+  user           User              @relation(fields: [userId], references: [id])
 }

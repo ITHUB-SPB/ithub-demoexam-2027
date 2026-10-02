@@ -2,6 +2,7 @@ node_modules
 .DS_Store
 dist
 dist-ssr
+*.local
 .env
 .nitro
 .tanstack
@@ -10,3 +11,5 @@ dist-ssr
 .vinxi
 __unconfig*
 todos.json
+
+/src/generated/prisma

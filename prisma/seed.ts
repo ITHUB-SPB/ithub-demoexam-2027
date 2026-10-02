@@ -1,35 +1,24 @@
-import { PrismaClient } from '../src/generated/prisma/client.js'
-import { getDatabaseUrl } from '../src/database-url.js'
-import { hashPassword } from '#/lib/hash.js'
+// prisma/seed.ts
 
-import { PrismaPg } from '@prisma/adapter-pg'
+import { prisma } from '../src/db'
 
-const adapter = new PrismaPg({
-  connectionString: getDatabaseUrl(),
-})
-
-const prisma = new PrismaClient({ adapter })
 
 async function main() {
-  console.log('🌱 Seeding database...')
-
-  await prisma.user.deleteMany()
-
-  const users = await prisma.user.createMany({
-    data: [
-      { email: "admin@example.com", login: "Admin", phone: "79223449123", fullname: "Админ Админович", password: await hashPassword('KorokNET') },
-      { email: "testuser@example.com", login: "testuser", phone: "79223449124", fullname: "Юзер Юзерович", password: await hashPassword('testuser') },
-    ],
+  await prisma.user.upsert({
+    where: { login: 'Admin' },
+    update: {},
+    create: {
+      login: 'Admin',
+      password: 'KorokNET',
+      fullName: 'Администратор Системы',
+      phone: '8(999)000-00-00',
+      email: 'admin@korok.net',
+      role: 'ADMIN',
+    },
   })
-
-  console.log(`✅ Created ${users.count} users`)
+  console.log('Admin создан')
 }
 
 main()
-  .catch((e) => {
-    console.error('❌ Error seeding database:', e)
-    process.exit(1)
-  })
-  .finally(async () => {
-    await prisma.$disconnect()
-  })
+  .catch(console.error)
+  .finally(() => prisma.$disconnect())
