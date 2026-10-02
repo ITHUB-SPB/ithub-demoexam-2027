@@ -44,7 +44,7 @@ export const createReview = createServerFn({method: 'POST'})
 
             await prisma.review.create({
                 data: {
-                    test: data.text,
+                    text: data.text,
                     user: {
                         connect: {
                             login: data.login

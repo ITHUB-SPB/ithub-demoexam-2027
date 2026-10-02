@@ -1,7 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { getPrismaClient } from "#/db";
-import { hashPassword } from "../../primer/hash";
-
+import { hashPassword } from "./hash";
 type Result = {
     success: true
 } | {
@@ -23,7 +22,7 @@ export const register = createServerFn({ method: 'POST'})
             const hashedPassword = await hashPassword(data.password)
 
             await prisma.user.create({
-                data: {...data, password: hashPassword}
+                data: {...data, password: hashedPassword}
             })
 
             return {success: true}
