@@ -8,9 +8,19 @@ datasource db {
 }
 
 model User {
-
+  id          Int     @id @default(autoincrement())
+  login       String  @unique
+  password    String
+  fullname    String
+  phoneNumber String
+  email       String
 }
 
 model Entry {
-
+  id        Int @id @default(autoincrement())
+  course    String
+  startAt   DateTime
+  userId    Int
+  status    String
+  createdAt String
 }
