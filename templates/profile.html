@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет</title>
+</head>
+
+<body>
+    <span>{{ login }}</span>
+    <form action="/logout" method="get">
+        <button type="submit">Выйти</button>
+    </form>
+
+    <form action="/profile" method="post">
+        <select name="course" required>
+            <option value="ОАиП">ОАиП</option>
+            <option value="ОКС">ОКС</option>
+            <option value="ВМ">ВМ</option>
+        </select>
+        <select name="payment" required>
+            <option value="Наличные">Наличные</option>
+            <option value="Перевод">Перевод</option>
+        </select>
+        <input type="date" name="date">
+        <button type="submit">Создать</button>
+    </form>
+
+    <main>
+        {% for record in records %}
+        <p>{{ record.course }} {{ record.payment }} {{ record.date }}</p>
+        {% endfor %}
+    </main>
+</body>
+
+</html>
