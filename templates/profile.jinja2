@@ -10,19 +10,7 @@
 {% endblock %}
 
 {% block content %}
-<form action="/profile" method="post">
-    <select name="course" required>
-        <option value="ОАиП">ОАиП</option>
-        <option value="ОКС">ОКС</option>
-        <option value="ВМ">ВМ</option>
-    </select>
-    <select name="payment" required>
-        <option value="Наличные">Наличные</option>
-        <option value="Перевод">Перевод</option>
-    </select>
-    <input type="date" name="date">
-    <button class="button" type="submit">Создать</button>
-</form>
+<a class="link" href="/profile/new">Создать новую заявку</a>
 <article>
     {% for record in records %}
     <p>{{ record.course }} {{ record.payment }} {{ record.date }}</p>
