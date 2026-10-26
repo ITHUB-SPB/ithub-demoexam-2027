@@ -6,8 +6,9 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 from sqlmodel import SQLModel, Field, Session, create_engine, select
-from sqlalchemy.exc import IntegrityError, NoResultFound
+from sqlalchemy.exc import IntegrityError, NoResultFound, ProgrammingError
 
+from seed import users, records
 
 class User(SQLModel, table=True):
     login: str = Field(primary_key=True)
@@ -33,6 +34,21 @@ class Login(SQLModel):
 async def lifespan(app: FastAPI):
     engine = create_engine('sqlite:///db.sqlite3')
     SQLModel.metadata.create_all(bind=engine)
+
+    with Session(bind=engine) as session:
+        try:
+            session.add_all([User(**user) for user in users])
+            session.commit()
+        except (IntegrityError, ProgrammingError):
+            session.rollback()
+
+    with Session(bind=engine) as session:
+        try:
+            session.add_all([Record(**record) for record in records])
+            session.commit()
+        except (IntegrityError, ProgrammingError):
+            session.rollback()
+
     yield
 
 
@@ -137,7 +153,7 @@ def post_profile(request: Request, record: Annotated[Record, Form()]):
     return RedirectResponse('/profile', status_code=302)
 
 @app.get('/logout')
-def get_logout(request: Request):
+def get_logout():
     response = RedirectResponse('/login', status_code=302)
     
     response.delete_cookie('login')
