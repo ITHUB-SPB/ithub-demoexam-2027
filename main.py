@@ -23,6 +23,7 @@ class Record(SQLModel, table=True):
     payment: str
     date: str
     user_login: str
+    status: str | None = Field(default="Новая")
     
 
 class Login(SQLModel):
@@ -134,6 +135,7 @@ def get_profile(request: Request):
         }
     )
 
+
 @app.get('/profile/new')
 def get_new_record(request: Request):
     if request.cookies.get('role') != 'user':
@@ -165,6 +167,25 @@ def post_new_record(request: Request, record: Annotated[Record, Form()]):
             )
 
     return RedirectResponse('/profile', status_code=302)
+
+@app.get('/admin')
+def get_admin(request: Request):
+    if request.cookies.get('role') != 'moderator':
+        return RedirectResponse('/login', status_code=302)
+
+    with Session(bind=engine) as session:
+        expr = select(Record)
+        records = session.exec(expr).all()
+
+    return templates.TemplateResponse(
+        request, 
+        'admin.jinja2', 
+        context={
+            "login": request.cookies.get('login'),
+            "records": records
+        }
+    )
+
 
 @app.get('/logout')
 def get_logout():
