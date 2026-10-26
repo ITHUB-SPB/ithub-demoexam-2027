@@ -31,6 +31,11 @@ class Login(SQLModel):
     password: str
 
 
+class NewStatus(SQLModel):
+    record_id: int
+    new_status: str
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     engine = create_engine('sqlite:///db.sqlite3')
@@ -167,6 +172,19 @@ def post_new_record(request: Request, record: Annotated[Record, Form()]):
             )
 
     return RedirectResponse('/profile', status_code=302)
+
+
+@app.post('/status')
+def post_status(request: Request, new_status: Annotated[NewStatus, Form()]):
+    with Session(bind=engine) as session:
+        try:
+            record = session.exec(select(Record).where(Record.id == new_status.record_id)).one()
+            record.status = new_status.new_status
+            session.commit()
+            session.refresh(record)
+            return RedirectResponse('/admin', status_code=302)
+        except NoResultFound:
+            return RedirectResponse('/admin', status_code=302)
 
 @app.get('/admin')
 def get_admin(request: Request):

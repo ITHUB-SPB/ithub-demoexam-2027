@@ -18,6 +18,7 @@
                 <th>Курс</th>
                 <th>Тип оплаты</th>
                 <th>Дата старта</th>
+                <th>Статус</th>
             </tr>
         </thead>
         <tbody>
@@ -26,6 +27,12 @@
                 <td>{{ record.course }}</td>
                 <td>{{ record.payment }}</td>
                 <td>{{ record.date }}</td>
+                <td>
+                    {{ record.status }}
+                    {% if record.status == "Обучение завершено" %}
+                    <a href="/profile/feedback/">Отзыв</a>
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </tbody>
