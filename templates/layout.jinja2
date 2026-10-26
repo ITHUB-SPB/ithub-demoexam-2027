@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Заявки</title>
+    <title>{% block title %} {% endblock %}</title>
     <link rel="stylesheet" href="/static/vendor/pico.css">
     <link rel="stylesheet" href="/static/vendor/glide.core.css">
     <link rel="stylesheet" href="/static/global.css">
@@ -12,7 +12,7 @@
 
 <body>
     <div class="page">
-
+        <header class="header">{% block header %}{% endblock %}</header>
         <div class="glide">
             <div data-glide-el="track" class="glide__track">
                 <div class="glide__slides">
@@ -24,8 +24,8 @@
                 </div>
             </div>
         </div>
+        <main>{% block content %}{% endblock %}</main>
     </div>
-
     <script src="/static/vendor/glide.js"></script>
     <script>
         new Glide('.glide', { autoplay: 3000, perView: 2 }).mount()

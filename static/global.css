@@ -51,7 +51,7 @@ input:user-invalid + p {
 }
 
 form:has(:invalid) button {
-    pointer: default;
+    cursor: default;
     opacity: 0.5;
     pointer-events: none;
 }

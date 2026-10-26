@@ -45,7 +45,7 @@ app.mount('/static', StaticFiles(directory="./static"))
 
 @app.get('/login')
 def get_login(request: Request):
-    return templates.TemplateResponse(request, 'login.html')
+    return templates.TemplateResponse(request, 'login.jinja2')
 
 
 @app.post('/login')
@@ -57,7 +57,7 @@ def post_login(request: Request, login: Annotated[Login, Form()]):
         except NoResultFound:
             return templates.TemplateResponse(
                 request, 
-                'login.html', 
+                'login.jinja2', 
                 context={
                     "error": "Неверные данные"
                 }
@@ -76,7 +76,7 @@ def post_login(request: Request, login: Annotated[Login, Form()]):
 
 @app.get('/register')
 def get_register(request: Request):
-    return templates.TemplateResponse(request, 'register.html')
+    return templates.TemplateResponse(request, 'register.jinja2')
 
 
 @app.post('/register')
@@ -89,7 +89,7 @@ def post_register(request: Request, user: Annotated[User, Form()]):
             session.rollback()
             return templates.TemplateResponse(
                 request, 
-                'register.html',
+                'register.jinja2',
                 context={
                     "error": "Пользователь уже существует"
                 }
@@ -109,7 +109,7 @@ def get_profile(request: Request):
 
     return templates.TemplateResponse(
         request, 
-        'profile.html', 
+        'profile.jinja2', 
         context={
             "login": request.cookies.get('login'),
             "records": records
@@ -128,7 +128,7 @@ def post_profile(request: Request, record: Annotated[Record, Form()]):
             session.rollback()
             return templates.TemplateResponse(
                 request, 
-                'profile.html',
+                'profile.jinja2',
                 context={
                     "error": "Не удалось создать заявку"
                 }
