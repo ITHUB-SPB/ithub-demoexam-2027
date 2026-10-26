@@ -12,11 +12,19 @@
 
 <body>
     <div class="page">
-        <header class="header">{% block header %}{% endblock %}</header>
+        <header class="header">
+            <h1 class="brand">KorokNET</h1>
+            <img class="logo" src="/static/images/branding/logo_1.webp" />
+            {% block header %}{% endblock %}
+        </header>
         <div class="glide">
             <div data-glide-el="track" class="glide__track">
                 <div class="glide__slides">
-                    <img class="glide__slide" src="/static/images/slider/image06.jpg" alt="">
+                    <img class="glide__slide" src="/static/images/slider/image_1.webp" alt="">
+                    <img class="glide__slide" src="/static/images/slider/image_2.webp" alt="">
+                    <img class="glide__slide" src="/static/images/slider/image_3.webp" alt="">
+                    <img class="glide__slide" src="/static/images/slider/image_4.webp" alt="">
+                    <img class="glide__slide" src="/static/images/slider/image_5.webp" alt="">
                 </div>
                 <div class="glide__arrows" data-glide-el="controls">
                     <button class="glide__arrow glide__arrow--prev" data-glide-dir="<">&lt;</button>

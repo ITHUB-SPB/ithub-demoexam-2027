@@ -6,8 +6,9 @@
 {% if error %}<p>{{ error }}</p>{% endif %}
 <form action="/login" method="post">
     <input type="text" name="login" placeholder="Логин" required>
-    <p>Заполните поле</p>
+    <p>Корректно заполните поле</p>
     <input type="password" name="password" placeholder="Пароль" required>
+    <p>Корректно заполните поле</p>
     <button type="submit">Войти</button>
 </form>
 {% endblock %}
