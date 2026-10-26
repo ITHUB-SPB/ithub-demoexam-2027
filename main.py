@@ -44,8 +44,10 @@ async def lifespan(app: FastAPI):
 
     with Session(bind=engine) as session:
         try:
-            session.add_all([Record(**record) for record in records])
-            session.commit()
+            existing_records = session.scalars(select(Record)).unique().all()
+            if len(existing_records) == 0:
+                session.add_all([Record(**record) for record in records])
+                session.commit()
         except (IntegrityError, ProgrammingError):
             session.rollback()
 
@@ -132,9 +134,21 @@ def get_profile(request: Request):
         }
     )
 
+@app.get('/profile/new')
+def get_new_record(request: Request):
+    if request.cookies.get('role') != 'user':
+        return RedirectResponse('/login', status_code=302)
+    
+    return templates.TemplateResponse(
+        request, 
+        'new_record.jinja2', 
+        context={
+            "login": request.cookies.get('login'),
+        }
+    )
 
-@app.post('/profile')
-def post_profile(request: Request, record: Annotated[Record, Form()]):
+@app.post('/profile/new')
+def post_new_record(request: Request, record: Annotated[Record, Form()]):
     with Session(bind=engine) as session:
         try:
             record.user_login = request.cookies.get('login')

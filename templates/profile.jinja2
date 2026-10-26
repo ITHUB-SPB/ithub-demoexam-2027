@@ -12,8 +12,23 @@
 {% block content %}
 <a class="link" href="/profile/new">Создать новую заявку</a>
 <article>
-    {% for record in records %}
-    <p>{{ record.course }} {{ record.payment }} {{ record.date }}</p>
-    {% endfor %}
+    <table>
+        <thead>
+            <tr>
+                <th>Курс</th>
+                <th>Тип оплаты</th>
+                <th>Дата старта</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+            <tr>
+                <td>{{ record.course }}</td>
+                <td>{{ record.payment }}</td>
+                <td>{{ record.date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </article>
 {% endblock %}
