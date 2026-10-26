@@ -32,7 +32,10 @@
                 </div>
             </div>
         </div>
-        <main>{% block content %}{% endblock %}</main>
+        <main>
+            {% if error %}<p class="error">{{ error }}</p>{% endif %}
+            {% block content %}{% endblock %}
+        </main>
     </div>
     <script src="/static/vendor/glide.js"></script>
     <script>

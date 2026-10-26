@@ -1,22 +1,19 @@
-<!DOCTYPE html>
-<html lang="ru">
+{% extends "./layout.jinja2" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация</title>
-</head>
+{% block title %}Регистрация{% endblock %}
 
-<body>
-    {% if error %}
-    <p>{{ error }}</p>
-    {% endif %}
-    <form action="/register" method="post">
-        <input type="text" name="login" placeholder="Логин" required>
-        <input type="password" name="password" placeholder="Пароль" required>
-        <input type="text" name="fio" placeholder="ФИО" required>
-        <button type="submit">Создать</button>
-    </form>
-</body>
+{% block content %}
+<form action="/register" method="post">
+    <input type="text" name="login" placeholder="Логин" pattern="[a-zA-Z0-9]{6,}" required>
+    <p class="error">Корректно заполните поле (латиница и цифры, 6+ символов)</p>
 
-</html>
+    <input type="password" name="password" placeholder="Пароль" pattern="[^\s]{8,}" required>
+    <p class="error">Корректно заполните поле (8+ символов)</p>
+
+    <input type="text" name="fio" placeholder="ФИО" pattern="[а-яА-Я ]+" required>
+    <p class="error">Корректно заполните поле (кириллица и пробелы)</p>
+
+    <button class="button" type="submit">Создать</button>
+</form>
+<a href="/login" class="link">Уже зарегистрированы?</a>
+{% endblock %}
