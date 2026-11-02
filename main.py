@@ -23,6 +23,7 @@ class Record(SQLModel, table=True):
     payment: str
     date: str
     user_login: str
+    feedback: str | None = Field(default=None)
     status: str | None = Field(default="Новая")
     
 
