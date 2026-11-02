@@ -28,9 +28,21 @@
                 <td>{{ record.payment }}</td>
                 <td>{{ record.date }}</td>
                 <td>
-                    {{ record.status }}
                     {% if record.status == "Обучение завершено" %}
-                    <a href="/profile/feedback/">Отзыв</a>
+                    <details>
+                        <summary>Отзыв</summary>
+                        {% if record.feedback %}
+                        {{ record.feedback }}
+                        {% else %}
+                        <form action="/feedback" method="post">
+                            <input name="new_feedback" required />
+                            <input name="record_id" value="{{ record.id }}" hidden />
+                            <button class="button">Отправить</button>
+                        </form>
+                        {% endif %}
+                    </details>
+                    {% else %}
+                    {{ record.status }}
                     {% endif %}
                 </td>
             </tr>

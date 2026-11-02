@@ -11,6 +11,21 @@
 
 {% block content %}
 <article>
+    <form method="get" action="/admin" style="display: flex; gap: 8px;">
+        <select name="course" style="margin-bottom: 0;">
+            <option value="">-</option>
+            <option value="ОАиП">ОАиП</option>
+            <option value="ОКС">ОКС</option>
+            <option value="ВМ">ВМ</option>
+        </select>
+        <select name="payment" style="margin-bottom: 0;">
+            <option value="">-</option>
+            <option value="Наличные">Наличные</option>
+            <option value="Перевод">Перевод</option>
+        </select>
+        <button class="button" type="submit">Применить</button>
+    </form>
+
     <table>
         <thead>
             <tr>
@@ -29,6 +44,9 @@
                 <td>{{ record.payment }}</td>
                 <td>{{ record.date }}</td>
                 <td>
+                    {% if record.status == "Обучение завершено" %}
+                    {{ record.feedback or "Обучение завершено" }}
+                    {% else %}
                     <form method="post" action="/status" style="display: flex; align-items: center; gap: 8px;">
                         <select name="new_status" class="select">
                             <option value="Новая" {% if record.status=="Новая" %}selected{% endif %}>Новая</option>
@@ -40,6 +58,7 @@
                         <input name="record_id" value="{{ record.id }}" hidden />
                         <button class="button" type="submit" style="width: max-content;">✔</button>
                     </form>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}

@@ -37,6 +37,11 @@ class NewStatus(SQLModel):
     new_status: str
 
 
+class NewFeedback(SQLModel):
+    record_id: int
+    new_feedback: str
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     engine = create_engine('sqlite:///db.sqlite3')
@@ -187,13 +192,40 @@ def post_status(request: Request, new_status: Annotated[NewStatus, Form()]):
         except NoResultFound:
             return RedirectResponse('/admin', status_code=302)
 
+
+@app.post('/feedback')
+def post_status(request: Request, feedback: Annotated[NewFeedback, Form()]):
+    with Session(bind=engine) as session:
+        try:
+            record = session.exec(select(Record).where(Record.id == feedback.record_id)).one()
+            record.feedback = feedback.new_feedback
+            session.commit()
+            session.refresh(record)
+            return RedirectResponse('/profile', status_code=302)
+        except NoResultFound:
+            return templates.TemplateResponse(
+                request,
+                'profile.jinja2',
+                context={
+                    "error": "Не удалось оставить отзыв"
+                }
+            )
+
+
 @app.get('/admin')
-def get_admin(request: Request):
+def get_admin(request: Request, course: str | None = None, payment: str | None = None):
     if request.cookies.get('role') != 'moderator':
         return RedirectResponse('/login', status_code=302)
 
     with Session(bind=engine) as session:
         expr = select(Record)
+
+        if course:
+            expr = expr.where(Record.course == course)
+
+        if payment:
+            expr = expr.where(Record.payment == payment)
+
         records = session.exec(expr).all()
 
     return templates.TemplateResponse(
