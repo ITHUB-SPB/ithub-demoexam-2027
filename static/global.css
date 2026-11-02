@@ -85,8 +85,18 @@ form:has(:invalid) button {
     pointer-events: none;
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
     :root {
         font-size: 10px;
+    }
+
+    .glide__slides,
+    .glide__slide {
+        max-height: 100px;
+    }
+
+    form .error {
+        margin-bottom: 10px;
+        font-size: inherit;
     }
 }
