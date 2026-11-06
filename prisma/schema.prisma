@@ -1,14 +1,64 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
-model Todo {
-  id        Int      @id @default(autoincrement())
-  title     String
-  createdAt DateTime @default(now())
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Status {
+  NEW
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum PaymentMethod {
+  CASH
+  TRANSFER
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  login        String        @unique
+  passwordHash String
+  fullName     String
+  phone        String
+  email        String
+  role         Role          @default(USER)
+  createdAt    DateTime      @default(now())
+  applications Application[]
+}
+
+model Course {
+  id           Int           @id @default(autoincrement())
+  title        String        @unique
+  applications Application[]
+}
+
+model Application {
+  id            Int           @id @default(autoincrement())
+  userId        Int
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId      Int
+  course        Course        @relation(fields: [courseId], references: [id])
+  startDate     DateTime
+  paymentMethod PaymentMethod
+  status        Status        @default(NEW)
+  createdAt     DateTime      @default(now())
+  review        Review?
+}
+
+model Review {
+  id            Int         @id @default(autoincrement())
+  applicationId Int         @unique
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  rating        Int
+  text          String?
+  createdAt     DateTime    @default(now())
 }

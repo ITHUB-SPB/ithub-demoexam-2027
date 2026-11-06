@@ -7,7 +7,7 @@ export const Route = createFileRoute('/')({
       <p style={{ marginBottom: '20px', color: '#555' }}>Выберите действие:</p>
               <Link to="/admin" className="btn" style={{ textDecoration: 'none', textAlign: 'center', background: '#dc3545', marginTop: '20px' }}>
           Панель администратора
-        </Link>
+        </Link> 
       
       <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
         <Link to="/create" className="btn" style={{ textDecoration: 'none', textAlign: 'center' }}>

@@ -1,36 +1,42 @@
-import { PrismaClient } from '../src/generated/prisma/client.js'
+import { PrismaClient } from '@prisma/client'
+import bcrypt from 'bcryptjs'
 
-import { getDatabaseUrl } from '../src/database-url.js'
-
-import { PrismaPg } from '@prisma/adapter-pg'
-
-const adapter = new PrismaPg({
-  connectionString: getDatabaseUrl(),
-})
-
-const prisma = new PrismaClient({ adapter })
+const prisma = new PrismaClient()
 
 async function main() {
-  console.log('🌱 Seeding database...')
-
-  // Clear existing todos
-  await prisma.todo.deleteMany()
-
-  // Create example todos
-  const todos = await prisma.todo.createMany({
-    data: [
-      { title: 'Buy groceries' },
-      { title: 'Read a book' },
-      { title: 'Workout' },
-    ],
+  const adminPasswordHash = await bcrypt.hash('KorokNET', 10)
+  await prisma.user.upsert({
+    where: { login: 'Admin' },
+    update: {},
+    create: {
+      login: 'Admin',
+      passwordHash: adminPasswordHash,
+      fullName: 'Администратор',
+      phone: '8(000)000-00-00',
+      email: 'admin@korok.net',
+      role: 'ADMIN',
+    },
   })
+  const courses = [
+    'Основы алгоритмизации и программирования',
+    'Основы веб-дизайна',
+    'Основы проектирования баз данных',
+  ]
 
-  console.log(`✅ Created ${todos.count} todos`)
+  for (const title of courses) {
+    await prisma.course.upsert({
+      where: { title },
+      update: {},
+      create: { title },
+    })
+  }
+
+  console.log('База данных успешно заполнена!')
 }
 
 main()
   .catch((e) => {
-    console.error('❌ Error seeding database:', e)
+    console.error(e)
     process.exit(1)
   })
   .finally(async () => {

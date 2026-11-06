@@ -5,7 +5,6 @@ export const Route = createFileRoute('/admin')({
   component: AdminPanel,
 })
 
-// Временные данные для примера
 const MOCK_ALL_APPLICATIONS = [
   { id: 1, user: 'ivanov', course: 'Основы веб-дизайна', date: '01.09.2026', payment: 'Наличными', status: 'completed' },
   { id: 2, user: 'petrov', course: 'Основы алгоритмизации', date: '15.10.2026', payment: 'Переводом', status: 'in_progress' },
@@ -56,8 +55,6 @@ function AdminPanel() {
   return (
     <div>
       <h1>Панель администратора</h1>
-
-      {/* Фильтры */}
       <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
         <select 
           className="form-control" 
@@ -121,8 +118,6 @@ function AdminPanel() {
           </tbody>
         </table>
       </div>
-
-      {/* Пагинация */}
       {totalPages > 1 && (
         <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '15px' }}>
           <button 
@@ -145,7 +140,6 @@ function AdminPanel() {
         </div>
       )}
 
-      {/* Всплывающее уведомление (Toast) */}
       {toast && (
         <div style={{
           position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)',
