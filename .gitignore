@@ -3,10 +3,11 @@ node_modules
 dist
 dist-ssr
 .env
+venv
+env
 .nitro
 .tanstack
 .wrangler
 .output
 .vinxi
 __unconfig*
-todos.json

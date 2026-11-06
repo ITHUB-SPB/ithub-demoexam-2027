@@ -1,37 +1,5 @@
 # Подготовка к демоэкзамену
 
-## Настройка окружения
-
-1. Установка стартера (React, None, None, No, Prisma, Prisma PostgreSQL)
-
-```bash
-npx @tanstack/cli@latest create
-```
-
-2. 
-
-```bash
-docker run -p=5431:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=demo --name=demo postgres:18
-```
-
-3. 
-
-```bash
-npm run db:push
-```
-
-4. 
-
-```bash
-npm run db:generate
-```
-
-5. 
-
-```bash
-npm run db:seed
-```
-
 ## Описание
 
 Портал «Корочки.есть» представляет собой информационную систему для записи на онлайн курсы дополнительного профессионального образования. 
