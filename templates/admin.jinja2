@@ -1,0 +1,52 @@
+{% extends "layout.jinja2" %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block header %}
+<span>{{ username }}</span>
+<form action="/logout" method="get">
+    <button class="action-btn" type="submit">Выйти</button>
+</form>
+{% endblock %}
+
+{% block content %}
+<article>
+    <table>
+        <thead>
+            <tr>
+                <th>Клиент</th>
+                <th>Курс</th>
+                <th>Тип оплаты</th>
+                <th>Дата старта</th>
+                <th>Статус</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.user_login }}</td>
+                <td>{{ item.course }}</td>
+                <td>{{ item.payment }}</td>
+                <td>{{ item.date }}</td>
+                <td>
+                    {% if item.status == "Обучение завершено" %}
+                    {{ item.feedback or "Обучение завершено" }}
+                    {% else %}
+                    <form method="post" action="/status" style="display: flex; align-items: center; gap: 8px;">
+                        <select name="new_status" class="choice">
+                            <option value="Новая" {% if item.status == "Новая" %}selected{% endif %}>Новая</option>
+                            <option value="Идет обучение" {% if item.status == "Идет обучение" %}selected{% endif %}>
+                                Идет обучение</option>
+                            <option value="Обучение завершено" {% if item.status == "Обучение завершено" %}selected{% endif %}>Обучение завершено</option>
+                        </select>
+                        <input name="record_id" value="{{ item.id }}" hidden>
+                        <button class="action-btn" type="submit" style="width: max-content;">✔</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</article>
+{% endblock %}

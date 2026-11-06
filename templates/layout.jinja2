@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/vendor/pico.css">
+    <link rel="stylesheet" href="/static/vendor/glide.core.css">
+    <link rel="stylesheet" href="/static/global.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="top-bar">
+            <h1 class="site-name">KorokNET</h1>
+            <img class="logo-img" src="/static/images/branding/logo_1.webp" alt="KorokNET">
+            {% block header %}{% endblock %}
+        </header>
+        <div class="glide">
+            <div class="glide__track" data-glide-el="track">
+                <div class="glide__slides">
+                    <img class="glide__slide" src="/static/images/slider/image_1.webp" alt="">
+                    <img class="glide__slide" src="/static/images/slider/image_2.webp" alt="">
+                    <img class="glide__slide" src="/static/images/slider/image_3.webp" alt="">
+                    <img class="glide__slide" src="/static/images/slider/image_4.webp" alt="">
+                </div>
+                <div class="glide__arrows" data-glide-el="controls">
+                    <button class="glide__arrow glide__arrow--prev" data-glide-dir="<">&lt;</button>
+                    <button class="glide__arrow glide__arrow--next" data-glide-dir=">">&gt;</button>
+                </div>
+            </div>
+        </div>
+        <main>
+            {% if error %}<p class="alert-text">{{ error }}</p>{% endif %}
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+    <script src="/static/vendor/glide.js"></script>
+    <script>
+        const slider = new Glide(".glide", {
+            autoplay: 3 * 1000,
+            perView: window.innerWidth <= 390 ? 1 : 2
+        });
+        slider.mount();
+    </script>
+</body>
+
+</html>

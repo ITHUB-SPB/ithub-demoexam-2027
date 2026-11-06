@@ -1,0 +1,123 @@
+body {
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+.wrapper {
+    min-height: 100vh;
+    min-height: 100dvh;
+    max-width: 75rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.5rem;
+}
+
+.top-bar {
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    column-gap: 0.5rem;
+}
+
+.logo-img {
+    height: 100%;
+    width: auto;
+    margin-right: auto;
+}
+
+.site-name {
+    font-size: 1.5rem;
+    padding: 0;
+    margin: 0;
+}
+
+.glide__slides {
+    max-height: 16.25rem;
+}
+
+.glide__arrows {
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: center;
+    column-gap: 0.5rem;
+}
+
+.glide__arrow {
+    padding: 0 0.5rem;
+}
+
+.action-btn {
+    margin: 0;
+    padding: 0.25rem 0.75rem;
+}
+
+.alert-text {
+    color: #e10026;
+}
+
+.text-link {
+    display: block;
+    text-align: center;
+    margin: 0.75rem;
+}
+
+form .alert-text {
+    visibility: hidden;
+    margin-top: 0.25rem;
+    font-size: small;
+}
+
+.choice {
+    margin: 0 !important;
+}
+
+input {
+    margin-bottom: 0 !important;
+}
+
+input:user-invalid + .alert-text {
+    visibility: visible;
+}
+
+form:has(:invalid) button {
+    cursor: default;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+@media (max-width: 390px) {
+    :root {
+        font-size: 10px;
+    }
+
+    .wrapper {
+        max-width: 390px;
+        padding: 8px;
+        row-gap: 12px;
+    }
+
+    .top-bar {
+        height: 36px;
+    }
+
+    .glide__slides,
+    .glide__slide {
+        max-height: 100px;
+    }
+
+    form .alert-text {
+        margin-bottom: 10px;
+        font-size: inherit;
+    }
+
+    article {
+        overflow-x: auto;
+    }
+
+    table {
+        font-size: 10px;
+    }
+}

@@ -1,0 +1,27 @@
+{% extends "layout.jinja2" %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block header %}
+<span>{{ username }}</span>
+<form action="/logout" method="get">
+    <button class="action-btn" type="submit">Выйти</button>
+</form>
+{% endblock %}
+
+{% block content %}
+<a class="text-link" href="/profile">Вернуться к списку заявок</a>
+<form action="/profile/new" method="post">
+    <select name="course" required>
+        <option value="ОАиП">ОАиП</option>
+        <option value="ОКС">ОКС</option>
+        <option value="ВМ">ВМ</option>
+    </select>
+    <select name="payment" required>
+        <option value="Наличные">Наличные</option>
+        <option value="Перевод">Перевод</option>
+    </select>
+    <input type="date" name="date">
+    <button class="action-btn" type="submit">Создать</button>
+</form>
+{% endblock %}

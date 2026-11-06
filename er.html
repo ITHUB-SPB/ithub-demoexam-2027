@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ER-диаграмма</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            background: #f2f4f7;
+            font-family: Arial, sans-serif;
+        }
+        svg {
+            width: min(920px, 96vw);
+            height: auto;
+            background: #fff;
+            border: 1px solid #cfd6e4;
+        }
+    </style>
+</head>
+<body>
+    <svg viewBox="0 0 920 520" xmlns="http://www.w3.org/2000/svg">
+        <text x="460" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#1b2430">ER-диаграмма KorokNET</text>
+
+        <rect x="60" y="80" width="280" height="360" rx="6" fill="#eef6ff" stroke="#2f6fed" stroke-width="2"/>
+        <rect x="60" y="80" width="280" height="44" rx="6" fill="#2f6fed"/>
+        <rect x="60" y="108" width="280" height="16" fill="#2f6fed"/>
+        <text x="200" y="108" text-anchor="middle" font-size="20" font-weight="700" fill="#fff">user</text>
+        <text x="80" y="156" font-size="16" fill="#1b2430">PK  login  TEXT</text>
+        <text x="80" y="196" font-size="16" fill="#1b2430">password  TEXT</text>
+        <text x="80" y="236" font-size="16" fill="#1b2430">fio  TEXT</text>
+        <text x="80" y="276" font-size="16" fill="#1b2430">phone  TEXT</text>
+        <text x="80" y="316" font-size="16" fill="#1b2430">email  TEXT</text>
+        <text x="80" y="356" font-size="16" fill="#1b2430">role  TEXT</text>
+
+        <rect x="580" y="80" width="280" height="400" rx="6" fill="#f4eefc" stroke="#7a3fe0" stroke-width="2"/>
+        <rect x="580" y="80" width="280" height="44" rx="6" fill="#7a3fe0"/>
+        <rect x="580" y="108" width="280" height="16" fill="#7a3fe0"/>
+        <text x="720" y="108" text-anchor="middle" font-size="20" font-weight="700" fill="#fff">record</text>
+        <text x="600" y="156" font-size="16" fill="#1b2430">PK  id  INTEGER</text>
+        <text x="600" y="196" font-size="16" fill="#1b2430">course  TEXT</text>
+        <text x="600" y="236" font-size="16" fill="#1b2430">payment  TEXT</text>
+        <text x="600" y="276" font-size="16" fill="#1b2430">date  TEXT</text>
+        <text x="600" y="316" font-size="16" fill="#1b2430">FK  user_login  TEXT</text>
+        <text x="600" y="356" font-size="16" fill="#1b2430">feedback  TEXT</text>
+        <text x="600" y="396" font-size="16" fill="#1b2430">status  TEXT</text>
+
+        <line x1="340" y1="156" x2="580" y2="316" stroke="#1b2430" stroke-width="2"/>
+        <polygon points="572,310 582,316 572,322" fill="#1b2430"/>
+        <text x="460" y="220" text-anchor="middle" font-size="16" fill="#1b2430">1</text>
+        <text x="540" y="300" text-anchor="middle" font-size="16" fill="#1b2430">N</text>
+    </svg>
+</body>
+</html>
