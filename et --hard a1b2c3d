@@ -1,0 +1,47 @@
+[33m3cb9cbd[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Финальная версия проекта для демоэкзамена
+[33mb2731a2[m Финальная версия проекта
+[33md52bec9[m стартер
+[33mf99fe7a[m[33m ([m[1;31morigin/tanstack[m[33m)[m стартер демо
+[33m4276a53[m fresh
+[33ma149d91[m 23.09.2026:2
+[33mc13520e[m 23.09.2026:2
+[33mf4706de[m 23.09.2026:1
+[33m5f4f959[m 22.09.2026
+[33m6c6f5f3[m fix connection issues
+[33m2bfa846[m 22.09.2026:2
+[33m92149c9[m 22.09.2026-1
+[33m28ca5d1[m pico.css & assets
+[33mb836d4e[m 18.09.2026:3
+[33meaadead[m 18.09.2026:2
+[33m317de84[m 18.09.2026:2
+[33m4c044ef[m clear
+[33mbc9edc2[m[33m ([m[1;31morigin/'15.09.2026'[m[33m)[m remove start page
+[33m238d5c1[m entries table
+[33m602c8e9[m create entry (with dummy timestamp)
+[33md13563b[m wip
+[33m508a7c7[m wip
+[33m39270f1[m wip
+[33m5150f3e[m fix
+[33md4ca287[m login/register via prisma
+[33m3711d62[m seed
+[33md5d15d9[m seed
+[33m5406ea2[m Merge branch 'main' of https://github.com/ITHUB-SPB/ithub-demoexam-2027
+[33mf75098d[m register via prisma
+[33m3494877[m 09.09.2026
+[33m8b2ff5e[m wip
+[33ma1aec96[m wip"
+[33mb082bb1[m wip
+[33m315f160[m fix redirect
+[33ma542a50[m fix login redirect
+[33m2de57ca[m wip: auth
+[33m6afad34[m README
+[33m054062f[m emit contract
+[33mbcce9e0[m prisma models
+[33mc8e4d29[m wip(prisma)
+[33mb6875e9[m simplify
+[33m5dbff03[m login page
+[33m61e439a[m remove unused deps
+[33mbffad76[m mantine
+[33m71619cd[m serverFn
+[33mdd1a255[m remove unused
+[33md5556a4[m first commit
