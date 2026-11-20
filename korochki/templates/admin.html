@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Панель администратора — Корочки.есть{% endblock %}
+{% block content %}
+<h1>Панель администратора</h1>
+
+<form method="get" class="filters">
+    <input type="text" name="q" value="{{ search }}" placeholder="Поиск по логину или ФИО">
+    <select name="status">
+        <option value="">Все статусы</option>
+        {% for s in statuses %}
+            <option value="{{ s }}" {{ 'selected' if status_filter == s }}>{{ s }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit" class="btn btn-small">Применить</button>
+</form>
+
+{% if not requests %}
+    <div class="card empty-state">
+        <div class="icon">🔍</div>
+        <p>Заявок по заданным условиям не найдено</p>
+    </div>
+{% endif %}
+
+{% for r in requests %}
+    <div class="card admin-card request-card st-{{ loop.index0 }}">
+        <h2>Заявка №{{ r['id'] }} — {{ r['course_name'] }}</h2>
+        <div class="admin-user">
+            <div class="avatar">{{ r['full_name'][0] }}</div>
+            <div>
+                <b>{{ r['full_name'] }}</b><br>
+                <span style="color:var(--muted);">{{ r['login'] }} · {{ r['phone'] }}</span>
+            </div>
+        </div>
+        <p class="request-meta">Дата начала: <b>{{ r['start_date'].strftime('%d.%m.%Y') }}</b> · Оплата: {{ r['payment_method'] }}</p>
+        <p class="request-meta">Статус: <span class="status st-{{ loop.index0 }}">{{ r['status'] }}</span></p>
+        <form method="post" class="status-form">
+            <input type="hidden" name="request_id" value="{{ r['id'] }}">
+            <select name="status">
+                {% for s in statuses %}
+                    <option value="{{ s }}" {{ 'selected' if r['status'] == s }}>{{ s }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-primary btn-small">Сменить</button>
+        </form>
+    </div>
+{% endfor %}
+
+<div class="pagination">
+    {% for i in range(1, pages + 1) %}
+        <a href="{{ url_for('admin', page=i, status=status_filter, q=search) }}"
+           class="{{ 'active' if i == page }}">{{ i }}</a>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Корочки.есть — курсы ДПО{% endblock %}
+{% block content %}
+<section class="hero">
+    <h1>Учись на максимум</h1>
+    <p>Курсы дополнительного профессионального образования — запись в пару кликов.</p>
+    {% if user %}
+        <a href="{{ url_for('new_request') }}" class="btn btn-primary">Оставить заявку</a>
+    {% else %}
+        <a href="{{ url_for('register') }}" class="btn btn-primary">Зарегистрироваться</a>
+    {% endif %}
+</section>
+
+<section class="slider" id="slider">
+    <div class="slides">
+        <img src="{{ url_for('static', filename='img/slide1.jpg') }}" alt="Обучение">
+        <img src="{{ url_for('static', filename='img/slide2.jpg') }}" alt="Программирование">
+        <img src="{{ url_for('static', filename='img/slide3.jpg') }}" alt="Веб-дизайн">
+        <img src="{{ url_for('static', filename='img/slide4.jpg') }}" alt="Базы данных">
+    </div>
+    <button class="slider-btn prev" id="prev" aria-label="Назад">‹</button>
+    <button class="slider-btn next" id="next" aria-label="Вперед">›</button>
+    <div class="dots" id="dots"></div>
+</section>
+
+<section class="features">
+    <a href="{{ url_for('new_request') }}" class="feature-card">
+        <div class="feature-icon">💻</div>
+        <div>
+            <h3>Программирование</h3>
+            <p>Основы алгоритмизации и программирования</p>
+        </div>
+    </a>
+    <a href="{{ url_for('new_request') }}" class="feature-card">
+        <div class="feature-icon">🎨</div>
+        <div>
+            <h3>Веб-дизайн</h3>
+            <p>Основы веб-дизайна: от макета до адаптива</p>
+        </div>
+    </a>
+    <a href="{{ url_for('new_request') }}" class="feature-card">
+        <div class="feature-icon">🗄️</div>
+        <div>
+            <h3>Базы данных</h3>
+            <p>Основы проектирования баз данных</p>
+        </div>
+    </a>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/slider.js') }}"></script>{% endblock %}

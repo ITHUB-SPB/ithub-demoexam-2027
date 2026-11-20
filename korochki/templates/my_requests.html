@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Мои заявки — Корочки.есть{% endblock %}
+{% block content %}
+<h1>Мои заявки</h1>
+
+{% if not requests %}
+    <div class="card empty-state">
+        <div class="icon">📭</div>
+        <p>Заявок пока нет</p>
+        <p style="margin-top:12px;">
+            <a href="{{ url_for('new_request') }}" class="btn btn-primary" style="width:auto;">Оставить первую заявку</a>
+        </p>
+    </div>
+{% endif %}
+
+{% for r in requests %}
+    <div class="card request-card st-{{ loop.index0 }}">
+        <h2>{{ r['course_name'] }}</h2>
+        <p class="request-meta">Дата начала: <b>{{ r['start_date'].strftime('%d.%m.%Y') }}</b></p>
+        <p class="request-meta">Оплата: {{ r['payment_method'] }}</p>
+        <p class="request-meta">Статус: <span class="status st-{{ loop.index0 }}">{{ r['status'] }}</span></p>
+
+        {% if r['rating'] %}
+            <div class="review-box">
+                <b>Ваш отзыв:</b>
+                <span class="stars">{{ '★' * r['rating'] }}{{ '☆' * (5 - r['rating']) }}</span>
+                <p style="margin-top:6px;">{{ r['review_text'] }}</p>
+            </div>
+        {% elif r['status'] == 'Обучение завершено' %}
+            <details>
+                <summary>Оставить отзыв</summary>
+                <form method="post">
+                    <input type="hidden" name="review_request_id" value="{{ r['id'] }}">
+                    <div class="field">
+                        <label>Оценка</label>
+                        <select name="rating">
+                            {% for i in range(5, 0, -1) %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Текст отзыва</label>
+                        <textarea name="text" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Сохранить отзыв</button>
+                </form>
+            </details>
+        {% else %}
+            <p class="muted">🔒 Отзыв можно оставить после завершения курса.</p>
+        {% endif %}
+    </div>
+{% endfor %}
+{% endblock %}

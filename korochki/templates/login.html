@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Вход — Корочки.есть{% endblock %}
+{% block content %}
+<div class="auth-wrap">
+    <div class="card">
+        <h1>Вход</h1>
+
+        {% if registered %}
+            <div class="alert alert-success">Регистрация прошла успешно. Войдите в систему.</div>
+        {% endif %}
+
+        {% if error %}
+            <div class="alert alert-error">{{ error }}</div>
+        {% endif %}
+
+        <form method="post" novalidate>
+            <div class="field">
+                <label for="login">Логин</label>
+                <input type="text" id="login" name="login">
+            </div>
+            <div class="field">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Войти</button>
+        </form>
+
+        <p class="switch-link">Еще не зарегистрированы? <a href="{{ url_for('register') }}">Регистрация</a></p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Регистрация — Корочки.есть{% endblock %}
+{% block content %}
+<div class="auth-wrap">
+    <div class="card">
+        <h1>Регистрация</h1>
+
+        {% if errors %}
+            <div class="alert alert-error">Проверьте заполнение полей — есть ошибки.</div>
+        {% endif %}
+
+        <form method="post" novalidate>
+            <div class="field">
+                <label for="login">Логин *</label>
+                <input type="text" id="login" name="login" value="{{ form.get('login', '') }}">
+                {% if errors.get('login') %}<p class="error">{{ errors['login'] }}</p>{% endif %}
+            </div>
+
+            <div class="field">
+                <label for="password">Пароль *</label>
+                <input type="password" id="password" name="password">
+                {% if errors.get('password') %}<p class="error">{{ errors['password'] }}</p>{% endif %}
+            </div>
+
+            <div class="field">
+                <label for="full_name">ФИО *</label>
+                <input type="text" id="full_name" name="full_name"
+                       value="{{ form.get('full_name', '') }}" placeholder="Иванов Иван Иванович">
+                {% if errors.get('full_name') %}<p class="error">{{ errors['full_name'] }}</p>{% endif %}
+            </div>
+
+            <div class="field">
+                <label for="phone">Телефон *</label>
+                <input type="text" id="phone" name="phone"
+                       value="{{ form.get('phone', '') }}" placeholder="8(999)123-45-67">
+                {% if errors.get('phone') %}<p class="error">{{ errors['phone'] }}</p>{% endif %}
+            </div>
+
+            <div class="field">
+                <label for="email">E-mail *</label>
+                <input type="email" id="email" name="email"
+                       value="{{ form.get('email', '') }}" placeholder="mail@example.ru">
+                {% if errors.get('email') %}<p class="error">{{ errors['email'] }}</p>{% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Создать пользователя</button>
+        </form>
+
+        <p class="switch-link">Уже зарегистрированы? <a href="{{ url_for('login') }}">Войти</a></p>
+    </div>
+</div>
+{% endblock %}

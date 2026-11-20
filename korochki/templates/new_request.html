@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Новая заявка — Корочки.есть{% endblock %}
+{% block content %}
+<div class="card">
+    <h1>Заявка на обучение</h1>
+
+    <form method="post" novalidate>
+        <div class="field">
+            <label for="course_id">Наименование курса *</label>
+            <select id="course_id" name="course_id">
+                <option value="">— выберите курс —</option>
+                {% for c in courses %}
+                    <option value="{{ c['id'] }}"
+                        {{ 'selected' if form.get('course_id') == c['id']|string }}>
+                        {{ c['name'] }}
+                    </option>
+                {% endfor %}
+            </select>
+            {% if errors.get('course_id') %}<p class="error">{{ errors['course_id'] }}</p>{% endif %}
+        </div>
+
+        <div class="field">
+            <label for="start_date">Желаемая дата начала обучения *</label>
+            <input type="text" id="start_date" name="start_date"
+                   value="{{ form.get('start_date', '') }}" placeholder="ДД.ММ.ГГГГ">
+            {% if errors.get('start_date') %}<p class="error">{{ errors['start_date'] }}</p>{% endif %}
+        </div>
+
+        <fieldset class="field">
+            <legend>Способ оплаты *</legend>
+            {% for p in ['Наличными', 'Перевод по номеру телефона'] %}
+                <label class="radio">
+                    <input type="radio" name="payment_method" value="{{ p }}"
+                        {{ 'checked' if form.get('payment_method') == p }}>
+                    {{ p }}
+                </label>
+            {% endfor %}
+            {% if errors.get('payment_method') %}<p class="error">{{ errors['payment_method'] }}</p>{% endif %}
+        </fieldset>
+
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+</div>
+{% endblock %}
