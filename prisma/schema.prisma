@@ -24,6 +24,7 @@ model Entry {
   userId        Int      
   user          User     @relation(fields: [userId], references: [id]) 
   startAt       DateTime
-  status        String?  @default("Новая")
+  status        String   @default("Новая")
+  review        String?
   createdAt     DateTime @default(now())
 }

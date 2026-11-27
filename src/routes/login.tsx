@@ -1,47 +1,82 @@
 import { type SubmitEvent, useState } from 'react'
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute, redirect, useRouter } from '@tanstack/react-router'
 import { login } from '#/lib/login'
+import { getSessionUser } from '#/lib/auth'
 
 export const Route = createFileRoute('/login')({
+  beforeLoad: async () => {
+    const user = await getSessionUser()
+    if (user) {
+      throw redirect({ to: user.isAdmin ? '/admin' : '/' })
+    }
+  },
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  async function handleSubmit(event: SubmitEvent) {
-    const formData = new FormData(event.target)
+  const navigate = Route.useNavigate()
+  const router = useRouter()
+  const [error, setError] = useState<string | null>(null)
+  const [pending, setPending] = useState(false)
 
+  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setError(null)
+    setPending(true)
+
+    const formData = new FormData(event.currentTarget)
     const result = await login({
       data: {
-        login: formData.get('login') as string,
-        password: formData.get('password') as string,
-      }
+        login: String(formData.get('login') ?? ''),
+        password: String(formData.get('password') ?? ''),
+      },
     })
 
-    if (result.success === false) {
+    setPending(false)
+    if (!result.success) {
       setError(result.message)
       return
     }
 
-    await navigate({ to: '/' })
+    await router.invalidate()
+    await navigate({ to: result.isAdmin ? '/admin' : '/' })
   }
 
-  const navigate = Route.useNavigate()
-  const [error, setError] = useState<null | string>(null)
-
   return (
-    <div className='page'>
-      <h2>Авторизация</h2>
-      <p>{error}</p>
+    <div className="page page-auth">
+      <section className="auth-card">
+        <h2>Авторизация</h2>
 
-      <form className="form" action="" method="post" onSubmit={handleSubmit}>
-        <input className="input" type="text" name="login" placeholder='Логин' required />
-        <p className="error">Заполните поле</p>
+        <form className="form" onSubmit={handleSubmit}>
+          <input
+            className="input"
+            type="text"
+            name="login"
+            placeholder="Логин"
+            required
+          />
+          <p className="error">Заполните поле</p>
 
-        <input className="input" type="password" name="password" placeholder='Пароль' required />
-        <p className="error">Заполните поле</p>
+          <input
+            className="input"
+            type="password"
+            name="password"
+            placeholder="Пароль"
+            required
+          />
+          <p className="error">Заполните поле</p>
 
-        <button className="button-submit" type="submit">Отправить</button>
-      </form>
+          {error && <p className="error error-visible">{error}</p>}
+
+          <button className="button-submit" type="submit" disabled={pending}>
+            Войти
+          </button>
+        </form>
+
+        <p className="auth-switch">
+          <Link to="/register">Еще не зарегистрированы? Регистрация</Link>
+        </p>
+      </section>
     </div>
   )
 }

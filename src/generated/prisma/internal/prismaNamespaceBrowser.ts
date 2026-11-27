@@ -90,6 +90,7 @@ export const EntryScalarFieldEnum = {
   userId: 'userId',
   startAt: 'startAt',
   status: 'status',
+  review: 'review',
   createdAt: 'createdAt'
 } as const
 

@@ -43,6 +43,7 @@ export type EntryMinAggregateOutputType = {
   userId: number | null
   startAt: Date | null
   status: string | null
+  review: string | null
   createdAt: Date | null
 }
 
@@ -53,6 +54,7 @@ export type EntryMaxAggregateOutputType = {
   userId: number | null
   startAt: Date | null
   status: string | null
+  review: string | null
   createdAt: Date | null
 }
 
@@ -63,6 +65,7 @@ export type EntryCountAggregateOutputType = {
   userId: number
   startAt: number
   status: number
+  review: number
   createdAt: number
   _all: number
 }
@@ -85,6 +88,7 @@ export type EntryMinAggregateInputType = {
   userId?: true
   startAt?: true
   status?: true
+  review?: true
   createdAt?: true
 }
 
@@ -95,6 +99,7 @@ export type EntryMaxAggregateInputType = {
   userId?: true
   startAt?: true
   status?: true
+  review?: true
   createdAt?: true
 }
 
@@ -105,6 +110,7 @@ export type EntryCountAggregateInputType = {
   userId?: true
   startAt?: true
   status?: true
+  review?: true
   createdAt?: true
   _all?: true
 }
@@ -201,7 +207,8 @@ export type EntryGroupByOutputType = {
   paymentType: string
   userId: number
   startAt: Date
-  status: string | null
+  status: string
+  review: string | null
   createdAt: Date
   _count: EntryCountAggregateOutputType | null
   _avg: EntryAvgAggregateOutputType | null
@@ -234,7 +241,8 @@ export type EntryWhereInput = {
   paymentType?: Prisma.StringFilter<"Entry"> | string
   userId?: Prisma.IntFilter<"Entry"> | number
   startAt?: Prisma.DateTimeFilter<"Entry"> | Date | string
-  status?: Prisma.StringNullableFilter<"Entry"> | string | null
+  status?: Prisma.StringFilter<"Entry"> | string
+  review?: Prisma.StringNullableFilter<"Entry"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Entry"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
@@ -245,7 +253,8 @@ export type EntryOrderByWithRelationInput = {
   paymentType?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   startAt?: Prisma.SortOrder
-  status?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
+  review?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
@@ -259,7 +268,8 @@ export type EntryWhereUniqueInput = Prisma.AtLeast<{
   paymentType?: Prisma.StringFilter<"Entry"> | string
   userId?: Prisma.IntFilter<"Entry"> | number
   startAt?: Prisma.DateTimeFilter<"Entry"> | Date | string
-  status?: Prisma.StringNullableFilter<"Entry"> | string | null
+  status?: Prisma.StringFilter<"Entry"> | string
+  review?: Prisma.StringNullableFilter<"Entry"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Entry"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
@@ -270,7 +280,8 @@ export type EntryOrderByWithAggregationInput = {
   paymentType?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   startAt?: Prisma.SortOrder
-  status?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
+  review?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.EntryCountOrderByAggregateInput
   _avg?: Prisma.EntryAvgOrderByAggregateInput
@@ -288,7 +299,8 @@ export type EntryScalarWhereWithAggregatesInput = {
   paymentType?: Prisma.StringWithAggregatesFilter<"Entry"> | string
   userId?: Prisma.IntWithAggregatesFilter<"Entry"> | number
   startAt?: Prisma.DateTimeWithAggregatesFilter<"Entry"> | Date | string
-  status?: Prisma.StringNullableWithAggregatesFilter<"Entry"> | string | null
+  status?: Prisma.StringWithAggregatesFilter<"Entry"> | string
+  review?: Prisma.StringNullableWithAggregatesFilter<"Entry"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Entry"> | Date | string
 }
 
@@ -296,7 +308,8 @@ export type EntryCreateInput = {
   course: string
   paymentType: string
   startAt: Date | string
-  status?: string | null
+  status?: string
+  review?: string | null
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutEntriesInput
 }
@@ -307,7 +320,8 @@ export type EntryUncheckedCreateInput = {
   paymentType: string
   userId: number
   startAt: Date | string
-  status?: string | null
+  status?: string
+  review?: string | null
   createdAt?: Date | string
 }
 
@@ -315,7 +329,8 @@ export type EntryUpdateInput = {
   course?: Prisma.StringFieldUpdateOperationsInput | string
   paymentType?: Prisma.StringFieldUpdateOperationsInput | string
   startAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutEntriesNestedInput
 }
@@ -326,7 +341,8 @@ export type EntryUncheckedUpdateInput = {
   paymentType?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   startAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -336,7 +352,8 @@ export type EntryCreateManyInput = {
   paymentType: string
   userId: number
   startAt: Date | string
-  status?: string | null
+  status?: string
+  review?: string | null
   createdAt?: Date | string
 }
 
@@ -344,7 +361,8 @@ export type EntryUpdateManyMutationInput = {
   course?: Prisma.StringFieldUpdateOperationsInput | string
   paymentType?: Prisma.StringFieldUpdateOperationsInput | string
   startAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -354,7 +372,8 @@ export type EntryUncheckedUpdateManyInput = {
   paymentType?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   startAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -375,6 +394,7 @@ export type EntryCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   startAt?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  review?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -390,6 +410,7 @@ export type EntryMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   startAt?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  review?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -400,6 +421,7 @@ export type EntryMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   startAt?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  review?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -462,7 +484,8 @@ export type EntryCreateWithoutUserInput = {
   course: string
   paymentType: string
   startAt: Date | string
-  status?: string | null
+  status?: string
+  review?: string | null
   createdAt?: Date | string
 }
 
@@ -471,7 +494,8 @@ export type EntryUncheckedCreateWithoutUserInput = {
   course: string
   paymentType: string
   startAt: Date | string
-  status?: string | null
+  status?: string
+  review?: string | null
   createdAt?: Date | string
 }
 
@@ -510,7 +534,8 @@ export type EntryScalarWhereInput = {
   paymentType?: Prisma.StringFilter<"Entry"> | string
   userId?: Prisma.IntFilter<"Entry"> | number
   startAt?: Prisma.DateTimeFilter<"Entry"> | Date | string
-  status?: Prisma.StringNullableFilter<"Entry"> | string | null
+  status?: Prisma.StringFilter<"Entry"> | string
+  review?: Prisma.StringNullableFilter<"Entry"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Entry"> | Date | string
 }
 
@@ -519,7 +544,8 @@ export type EntryCreateManyUserInput = {
   course: string
   paymentType: string
   startAt: Date | string
-  status?: string | null
+  status?: string
+  review?: string | null
   createdAt?: Date | string
 }
 
@@ -527,7 +553,8 @@ export type EntryUpdateWithoutUserInput = {
   course?: Prisma.StringFieldUpdateOperationsInput | string
   paymentType?: Prisma.StringFieldUpdateOperationsInput | string
   startAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -536,7 +563,8 @@ export type EntryUncheckedUpdateWithoutUserInput = {
   course?: Prisma.StringFieldUpdateOperationsInput | string
   paymentType?: Prisma.StringFieldUpdateOperationsInput | string
   startAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -545,7 +573,8 @@ export type EntryUncheckedUpdateManyWithoutUserInput = {
   course?: Prisma.StringFieldUpdateOperationsInput | string
   paymentType?: Prisma.StringFieldUpdateOperationsInput | string
   startAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -558,6 +587,7 @@ export type EntrySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   userId?: boolean
   startAt?: boolean
   status?: boolean
+  review?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["entry"]>
@@ -569,6 +599,7 @@ export type EntrySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   userId?: boolean
   startAt?: boolean
   status?: boolean
+  review?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["entry"]>
@@ -580,6 +611,7 @@ export type EntrySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   userId?: boolean
   startAt?: boolean
   status?: boolean
+  review?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["entry"]>
@@ -591,10 +623,11 @@ export type EntrySelectScalar = {
   userId?: boolean
   startAt?: boolean
   status?: boolean
+  review?: boolean
   createdAt?: boolean
 }
 
-export type EntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "course" | "paymentType" | "userId" | "startAt" | "status" | "createdAt", ExtArgs["result"]["entry"]>
+export type EntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "course" | "paymentType" | "userId" | "startAt" | "status" | "review" | "createdAt", ExtArgs["result"]["entry"]>
 export type EntryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -616,7 +649,8 @@ export type $EntryPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     paymentType: string
     userId: number
     startAt: Date
-    status: string | null
+    status: string
+    review: string | null
     createdAt: Date
   }, ExtArgs["result"]["entry"]>
   composites: {}
@@ -1048,6 +1082,7 @@ export interface EntryFieldRefs {
   readonly userId: Prisma.FieldRef<"Entry", 'Int'>
   readonly startAt: Prisma.FieldRef<"Entry", 'DateTime'>
   readonly status: Prisma.FieldRef<"Entry", 'String'>
+  readonly review: Prisma.FieldRef<"Entry", 'String'>
   readonly createdAt: Prisma.FieldRef<"Entry", 'DateTime'>
 }
     
