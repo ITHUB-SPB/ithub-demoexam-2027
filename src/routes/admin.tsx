@@ -76,7 +76,6 @@ function AdminPage() {
 
   useEffect(() => {
     void refresh(page, statusFilter)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, statusFilter])
 
   function showToast(message: string) {

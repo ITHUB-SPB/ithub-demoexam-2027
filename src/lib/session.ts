@@ -10,10 +10,9 @@ export type AppSessionData = {
 export function useAppSession() {
   return useSession<AppSessionData>({
     name: 'koroknet',
-    // минимум 32 символа; в продакшене вынести в переменную окружения
     password: 'koroknet-demoexam-2027-session-secret',
     cookie: {
-      secure: false, // локальная разработка по http
+      secure: false,
       httpOnly: true,
       sameSite: 'lax',
     },

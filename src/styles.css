@@ -22,7 +22,6 @@ body {
   background: #f3f5fb;
 }
 
-/* ---------- Layout ---------- */
 
 .page {
   max-width: min(960px, 92%);
@@ -87,7 +86,6 @@ body {
   font-size: 13px;
 }
 
-/* ---------- Header ---------- */
 
 .header {
   display: flex;
@@ -146,7 +144,6 @@ body {
   font-size: 14px;
 }
 
-/* ---------- Buttons ---------- */
 
 .button-submit {
   background: var(--brand);
@@ -185,7 +182,6 @@ body {
   background: var(--brand-dark);
 }
 
-/* ---------- Forms & validation errors ---------- */
 
 .form {
   display: flex;
@@ -243,7 +239,6 @@ body {
   font-weight: 400;
 }
 
-/* ---------- Slider ---------- */
 
 .slider {
   position: relative;
@@ -310,7 +305,6 @@ body {
   background: var(--brand);
 }
 
-/* ---------- Entries ---------- */
 
 .entries {
   list-style: none;
@@ -388,7 +382,6 @@ body {
   resize: vertical;
 }
 
-/* ---------- Admin ---------- */
 
 .filter-select {
   width: auto;
@@ -503,7 +496,6 @@ body {
   }
 }
 
-/* ---------- Mobile 390x844 ---------- */
 
 @media (max-width: 480px) {
   .page {
